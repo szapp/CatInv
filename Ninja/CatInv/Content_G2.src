@@ -1,0 +1,13 @@
+..\Ikarus\Ikarus_G2.src
+..\LeGo\Header_G2.src
+
+Content\CatInv\classes.d
+Content\CatInv\const.d
+Content\CatInv\base.d
+Content\CatInv\navigation.d
+Content\CatInv\manipulate.d
+Content\CatInv\dead.d
+Content\CatInv\draw.d
+Content\CatInv\init.d
+
+Content\NinjaInit.d
