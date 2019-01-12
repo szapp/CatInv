@@ -15,4 +15,4 @@ original author and are subject to the terms of the MIT License.
 Legal
 -----
 
-CatInv is free software and released under The MIT License (MIT).
+CatInv is free software and released under the MIT License (MIT).
