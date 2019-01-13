@@ -4,7 +4,7 @@ Categorized Inventory for Gothic 2 NotR
 Forked from https://github.com/szapp/NinjaPatchTemplate
 
 
-This Ninja patch extends the inventory by browsable categories.
+This patch extends the inventory by browsable categories.
 
 
 Additional Keys Strokes
