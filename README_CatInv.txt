@@ -1,9 +1,6 @@
 Categorized Inventory for Gothic 2 NotR
 =======================================
 
-Forked from https://github.com/szapp/NinjaPatchTemplate
-
-
 This patch extends the inventory by browsable categories.
 
 
@@ -16,7 +13,14 @@ SHIFT + [left/right]    Quick-switch between categories
 [Choose Weapon]         Quick-switch between player and container/trading inventory
 
 
-Patch includes Ikarus, LeGo and CatInv.
+Categories
+-------------
+
+The categories and their order can be set in the Gothic.ini with the setting invCatOrder in the section [GAME].
+
+
+
+Patch includes CatInv.
 
 CatInv, Copyright (C) 2018-2019  mud-freak (@szapp).
 Released under the MIT License.

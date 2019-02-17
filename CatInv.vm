@@ -9,8 +9,6 @@ README_CatInv.txt
 ; _work\* -r
 
 ; Script files
-Ninja\Ikarus\* -r
-Ninja\LeGo\* -r
 Ninja\CatInv\* -r
 
 [EXCLUDE]
