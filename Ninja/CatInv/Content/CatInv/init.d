@@ -90,4 +90,9 @@ func void invInit() {
 
         once = 1;
     };
+
+    // Introducing the INI entry if not present
+    if (!MEM_GothOptExists("GAME", "invCatChangeOnLast")) {
+        MEM_SetGothOpt("GAME", "invCatChangeOnLast", "0");
+    };
 };

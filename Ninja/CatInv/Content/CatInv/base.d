@@ -122,6 +122,44 @@ func void invResetOffset(var int container) {
     con.selectedItem -= con.offset;
     con.offset = 0;
 };
+func void invSetSelectionFirst(var int container) {
+    invResetOffset(container);
+    var oCItemContainer con; con = _^(container);
+    con.selectedItem = 0;
+};
+
+
+/*
+ * Scroll to bottom
+ */
+func void invSetMaxOffset(var int container, var int selLastItem) {
+    var oCItemContainer con; con = _^(container);
+
+    // Calling this engine function is faster than counting in Daedalus
+    var int numItems;
+    var int contents; contents = con.contents;
+    const int call = 0;
+    if (CALL_Begin(call)) {
+        CALL_PutRetValTo(_@(numItems));
+        CALL__thiscall(_@(contents), zCListSort_oCItem___GetNumInList);
+        call = CALL_End();
+    };
+
+    var int numRows; numRows = (numItems-1)/con.maxSlotsCol + 1;
+    con.offset = (numRows - con.maxSlotsRow) * con.maxSlotsCol;
+    if con.offset < 0 {
+        con.offset = 0;
+    };
+
+    if (selLastItem) {
+        con.selectedItem = numItems-1;
+    } else {
+        con.selectedItem += con.offset;
+    };
+};
+func void invSetSelectionLast(var int container) {
+    invSetMaxOffset(container, TRUE);
+};
 
 
 /*

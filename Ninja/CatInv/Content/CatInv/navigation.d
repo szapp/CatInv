@@ -60,36 +60,38 @@ func void invRight() {
     var int switchView; switchView = 0; // -1 = no, 1 = yes, 0 = auto
     var int selLastCol; selLastCol = TRUE;
 
-    // Calling this engine function is faster than counting in Daedalus
-    var int numItems;
-    var int contents; contents = container.contents;
-    const int call = 0;
-    if (CALL_Begin(call)) {
-        CALL_PutRetValTo(_@(numItems));
-        CALL__thiscall(_@(contents), zCListSort_oCItem___GetNumInList);
-        call = CALL_End();
-    };
-
     if (MEM_KeyPressed(KEY_LSHIFT))
     || (MEM_KeyPressed(KEY_RSHIFT)) {
         // Quick-switch category
         switchView = -1;
         selLastCol = FALSE;
         var int dump; dump = invShiftCategory(1);
-    } else if (((container.selectedItem+1) % container.maxSlotsCol) == 0) || (container.selectedItem+1 >= numItems) {
-        // Switch category if at edge of inventory window
-        if (invShiftCategory(1)) {
-            switchView = -1;
+    } else if STR_ToInt(MEM_GetGothOpt("GAME", "invCatChangeOnLast")) {
+        // Calling this engine function is faster than counting in Daedalus
+        var int numItems;
+        var int contents; contents = container.contents;
+        const int call = 0;
+        if (CALL_Begin(call)) {
+            CALL_PutRetValTo(_@(numItems));
+            CALL__thiscall(_@(contents), zCListSort_oCItem___GetNumInList);
+            call = CALL_End();
         };
-    } else if (container.m_bManipulateItemsDisabled) {
-        // Switch category if all items after the selection are active (equipped) in trading
-        var int colToGo; colToGo = container.maxSlotsCol - ((container.selectedItem+1) % container.maxSlotsCol);
-        var int list; list = List_NodeS(container.contents, (container.selectedItem+1 /* First list element empty */
-                                                                                   +1 /* Moving selection */
-                                                                                   +1 /* Counts from 1 */));
-        if (invNextNonActiveItem(list, colToGo) == colToGo) {
+
+        if (((container.selectedItem+1) % container.maxSlotsCol) == 0) || (container.selectedItem+1 >= numItems) {
+            // Switch category if at edge of inventory window
             if (invShiftCategory(1)) {
                 switchView = -1;
+            };
+        } else if (container.m_bManipulateItemsDisabled) {
+            // Switch category if all items after the selection are active (equipped) in trading
+            var int colToGo; colToGo = container.maxSlotsCol - ((container.selectedItem+1) % container.maxSlotsCol);
+            var int list; list = List_NodeS(container.contents, (container.selectedItem+1 /* First list element empty */
+                                                                                       +1 /* Moving selection */
+                                                                                       +1 /* Counts from 1 */));
+            if (invNextNonActiveItem(list, colToGo) == colToGo) {
+                if (invShiftCategory(1)) {
+                    switchView = -1;
+                };
             };
         };
     };
@@ -134,19 +136,21 @@ func void invLeft() {
         // Quick-switch category
         switchView = -1;
         var int dump; dump = invShiftCategory(-1);
-    } else if ((container.selectedItem % container.maxSlotsCol) == 0) || (container.selectedItem <= 0) {
-        // Switch category if at edge of inventory window
-        if (invShiftCategory(-1)) {
-            switchView = -1;
-        };
-    } else if (container.m_bManipulateItemsDisabled) {
-        // Check if skipping active items in front of the selection
-        var int colToGo; colToGo = container.selectedItem - (container.selectedItem % container.maxSlotsCol);
-        var int list; list = List_NodeS(container.contents, (colToGo+1 /* First list element empty */
-                                                                    +1 /* Counts from 1 */));
-        if (invNextNonActiveItem(list, container.selectedItem) + colToGo == container.selectedItem) {
+    } else if (STR_ToInt(MEM_GetGothOpt("GAME", "invCatChangeOnLast"))) {
+        if ((container.selectedItem % container.maxSlotsCol) == 0) || (container.selectedItem <= 0) {
+            // Switch category if at edge of inventory window
             if (invShiftCategory(-1)) {
                 switchView = -1;
+            };
+        } else if (container.m_bManipulateItemsDisabled) {
+            // Check if skipping active items in front of the selection
+            var int colToGo; colToGo = container.selectedItem - (container.selectedItem % container.maxSlotsCol);
+            var int list; list = List_NodeS(container.contents, (colToGo+1 /* First list element empty */
+                                                                        +1 /* Counts from 1 */));
+            if (invNextNonActiveItem(list, container.selectedItem) + colToGo == container.selectedItem) {
+                if (invShiftCategory(-1)) {
+                    switchView = -1;
+                };
             };
         };
     };
@@ -245,9 +249,19 @@ func int invKeyBindingIsToggled(var int keyStroke, var int keyBinding) {
 func void invHandleEvent(var int keyStroke, var int container) {
     var int dump;
     if (keyStroke == KEY_HOME) {
-        dump = invSetCategoryFirst();
+        if (MEM_KeyPressed(KEY_LSHIFT))
+        || (MEM_KeyPressed(KEY_RSHIFT)) {
+            dump = invSetCategoryFirst();
+        } else {
+            invSetSelectionFirst(container);
+        };
     } else if (keyStroke == KEY_END) {
-        dump = invSetCategoryLast();
+        if (MEM_KeyPressed(KEY_LSHIFT))
+        || (MEM_KeyPressed(KEY_RSHIFT)) {
+            dump = invSetCategoryLast();
+        } else {
+            invSetSelectionLast(container);
+        };
     } else if (invKeyBindingIsToggled(keyStroke, zOPT_GAMEKEY_WEAPON)) {
         dump = invSwitchContainer(container);
     };
@@ -274,10 +288,20 @@ func void invHandleEventNpcInventory() {
     if (EAX) {
         EAX = !invSwitchContainer(EBP);
     } else if (ESI == KEY_HOME) {
-        EAX = invSetCategoryFirst();
+        if (MEM_KeyPressed(KEY_LSHIFT))
+        || (MEM_KeyPressed(KEY_RSHIFT)) {
+            EAX = invSetCategoryFirst();
+        } else {
+            invSetSelectionFirst(EBP);
+        };
         EAX = 0;
     } else if (ESI == KEY_END) {
-        EAX = invSetCategoryLast();
+        if (MEM_KeyPressed(KEY_LSHIFT))
+        || (MEM_KeyPressed(KEY_RSHIFT)) {
+            EAX = invSetCategoryLast();
+        } else {
+            invSetSelectionLast(EBP);
+        };
         EAX = 0;
     };
 
