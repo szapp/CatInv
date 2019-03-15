@@ -64,6 +64,7 @@ const int invBackTexture_addr[6] = {
 /* Hooks */
 const int oCAIHuman__ChangeCamModeBySituation_switchMobCam      =  6935573; //0x69D415
 const int oCItemContainer__CheckSelectedItem_isActive           =  7378665; //0x7096E9
+const int oCItemContainer__CheckSelectedItem_isActiveP          =  7378700; //0x70970C
 const int oCItemContainer__Close                                =  7376717; //0x708F4D
 const int oCItemContainer__DrawCategory_end                     =  7368195; //0x706E03
 const int oCItemContainer__HandleEvent_last                     =  7383647; //0x70AA5F
@@ -113,6 +114,7 @@ const int INV_CAT_GROUPS[INV_CAT_MAX] = {
 
 const int ASMINT_OP_nop4times = -1869574000; //0x90909090
 const int ASMINT_OP_add4ESP   = -1878735741; //83 C4 04 90   add  esp, 4h
+const int ASMINT_OP_shortJmp  =         235; //0xEB
 
 var   int invActiveCategory;
 const int _invCurrentList = 0;

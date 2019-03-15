@@ -55,6 +55,8 @@ func void invInit() {
         MEM_WriteByte(oCItemContainer__CheckSelectedItem_isActive, ASMINT_OP_nop);
         MEM_WriteInt(oCItemContainer__CheckSelectedItem_isActive+1, ASMINT_OP_add4ESP);
         HookEngineF(oCItemContainer__CheckSelectedItem_isActive, 5, invClampCategory);
+        MemoryProtectionOverride(oCItemContainer__CheckSelectedItem_isActiveP, 1);
+        MEM_WriteByte(oCItemContainer__CheckSelectedItem_isActiveP, ASMINT_OP_shortJmp);
 
         // Manipulate trading inventory
         MemoryProtectionOverride(oCStealContainer__CreateList_isArmor, 5);

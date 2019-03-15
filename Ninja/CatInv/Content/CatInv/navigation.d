@@ -342,15 +342,19 @@ func void invDelayMobCamera() {
  * Check if any non-active items are to the left/right
  */
 func void invClampCategory() {
+    var oCItemContainer container; container = _^(ESI);
     var C_Item itm; itm = _^(ECX);
     EAX = 0;
+
+    if (!container.m_bManipulateItemsDisabled) {
+        return;
+    };
 
     if ((itm.flags & ITEM_ACTIVE) != ITEM_ACTIVE) {
         return;
     };
 
     // First, check for non-active items to the right ("next")
-    var oCItemContainer container; container = _^(ESI);
     var int list; list = List_NodeS(container.contents, (container.selectedItem+1 /* First list element is empty */
                                                                                +1 /* List_NodeS counts from 1 */));
     var int numItems; numItems = List_LengthS(list);
