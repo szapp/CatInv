@@ -12,7 +12,7 @@
 /*
  * Re-implementation of oCNpcContainer::IsEmpty, which is an "abandoned", bugged function
  */
-func int invNpcContainerIsEmpty(var int container, var int includeEquipped, var int includeArmor) {
+func int CatInv_NpcContainerIsEmpty(var int container, var int includeEquipped, var int includeArmor) {
     var oCNpcInventory con; con = _^(container);
     if (con.owner) {
         var oCNpc owner; owner = _^(con.owner);
@@ -39,8 +39,8 @@ func int invNpcContainerIsEmpty(var int container, var int includeEquipped, var 
 /*
  * Intercept auto-closing of dead inventory once supposedly empty
  */
-func void invPreventCloseDeadInv() {
-    if (invNpcContainerIsEmpty(ESI, 0, 0)) {
+func void CatInv_PreventCloseDeadInv() {
+    if (CatInv_NpcContainerIsEmpty(ESI, 0, 0)) {
         // Previously overwritten by hook
         const int call = 0;
         if (CALL_Begin(call)) {
@@ -54,6 +54,6 @@ func void invPreventCloseDeadInv() {
 /*
  * Reset category on opening dead inventory
  */
-func void invDeadResetCategory() {
-    invActiveCategory = 0;
+func void CatInv_DeadResetCategory() {
+    CatInv_ActiveCategory = 0;
 };

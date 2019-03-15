@@ -46,13 +46,13 @@ const int zCView__SetFontColor                                  =  8034576; //0x
 const int zCView__SetPos                                        =  8025520; //0x7A75B0
 const int zCView__SetSize                                       =  8026016; //0x7A77A0
 const int zCView__SetTransparency                               =  8020064; //0x7A6060
-const int invDefaultHeight_addr                                 = 11210600; //0xAB0F68
-const int invDefaultWidth_addr                                  = 11210664; //0xAB0FA8
-const int invBaseBlendFunc_addr    /* zRND_ALPHA_FUNC_BLEND */  =  8635512; //0x83C478
-const int invDefaultAlphaFunc_addr /* zRND_ALPHA_FUNC_BLEND */  =  8635536; //0x83C490
-const int invFontColor_addr        /* Default: white */         = 11210944; //0xAB10C0
-const int invTitleTexture_addr     /* "INV_TITLE.TGA" */        = 11210968; //0xAB10D8
-const int invBackTexture_addr[6] = {
+const int CatInv_DefaultHeightAddr                              = 11210600; //0xAB0F68
+const int CatInv_DefaultWidthAddr                               = 11210664; //0xAB0FA8
+const int CatInv_BaseBlendFuncAddr    /*zRND_ALPHA_FUNC_BLEND*/ =  8635512; //0x83C478
+const int CatInv_DefaultAlphaFuncAddr /*zRND_ALPHA_FUNC_BLEND*/ =  8635536; //0x83C490
+const int CatInv_FontColorAddr        /* Default: white */      = 11210944; //0xAB10C0
+const int CatInv_TitleTextureAddr     /* "INV_TITLE.TGA" */     = 11210968; //0xAB10D8
+const int CatInv_BackTextureAddr[6] = {
     /* strInv_back           */    /* "INV_BACK.TGA"           */ 11210788, //0xAB1024
     /* strInv_back_container */    /* "INV_BACK_CONTAINER.TGA" */ 11210408, //0xAB0EA8
     /* strInv_back_plunder   */    /* "INV_BACK_PLUNDER.TGA"   */ 11210896, //0xAB1090
@@ -112,12 +112,14 @@ const int INV_CAT_GROUPS[INV_CAT_MAX] = {
     ITEM_KAT_NONE | ITEM_KAT_LIGHT            // INV_MISC    OTHER
 };
 
+
 const int ASMINT_OP_nop4times = -1869574000; //0x90909090
 const int ASMINT_OP_add4ESP   = -1878735741; //83 C4 04 90   add  esp, 4h
 const int ASMINT_OP_shortJmp  =         235; //0xEB
 
-var   int invActiveCategory;
-const int _invCurrentList = 0;
-const int _invBackupList  = 0; // Only for oCItemContainer (NPCs handled differently)
+var   int CatInv_ActiveCategory;
+const int _CatInv_CurrentList = 0;
+const int _CatInv_BackupList  = 0; // Only for oCItemContainer (NPCs handled differently)
 
-const int invInitialized  = 0; // Global in case used elsewhere
+const int CatInv_Initialized  = 0; // Global in case used elsewhere
+const int CatInv_ChangeOnLast = 0;

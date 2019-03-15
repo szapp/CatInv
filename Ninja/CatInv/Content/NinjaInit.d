@@ -3,5 +3,5 @@
  */
 func void Ninja_CatInv_Init() {
     MEM_InitAll();
-    invInit();
+    CatInv_Init();
 };

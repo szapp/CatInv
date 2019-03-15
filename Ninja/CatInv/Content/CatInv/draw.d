@@ -14,21 +14,21 @@
  * The contents of this function is closely mapped to how the container title is drawn. I doubt all of the intermediate
  * assigning of variables is necessary or it might even be redundant, but this is how I found it in the engine.
  */
-func void invDrawCategory() {
-    if (!invActiveCategory) {
+func void CatInv_DrawCategory() {
+    if (!CatInv_ActiveCategory) {
         return;
     };
 
-    const int invCatViewPtr = 0;
-    if (!invCatViewPtr) {
-        invCatViewPtr = ViewPtr_New();
+    const int catViewPtr = 0;
+    if (!catViewPtr) {
+        catViewPtr = ViewPtr_New();
     };
 
     var oCItemContainer container; container = _^(ESI);
     var zCView viewTitle; viewTitle = _^(EAX); // zCView* (oCItemContainer.viewTitle)
     var int screenPtr; screenPtr = ECX; // zCView*
 
-    var string text; text = MEM_ReadStatStringArr(TXT_INV_CAT, invGetCatID(invActiveCategory));
+    var string text; text = MEM_ReadStatStringArr(TXT_INV_CAT, CatInv_GetCatID(CatInv_ActiveCategory));
     text = ConcatStrings(text, STR_UnEscape("\n"));
     var int textPtr; textPtr = _@s(text);
 
@@ -39,7 +39,7 @@ func void invDrawCategory() {
     const int call = 0;
     if (CALL_Begin(call)) {
         CALL_IntParam(_@(zero));
-        CALL_PtrParam(_@(invCatViewPtr));
+        CALL_PtrParam(_@(catViewPtr));
         CALL__thiscall(_@(screenPtr), zCView__InsertItem);
 
         CALL_PutRetValTo(_@(padding));
@@ -53,13 +53,13 @@ func void invDrawCategory() {
         call = CALL_End();
     };
 
-    var int height; height = MEM_ReadInt(invDefaultHeight_addr) / 2;
+    var int height; height = MEM_ReadInt(CatInv_DefaultHeightAddr) / 2;
     var int posX; posX = container.marginLeft - padding;
     var int posY; posY = posX + height;
     posX += viewTitle.vsizex; // Set next to currency view/container title
     fontSize += 2 * padding;
 
-    var int width; width = 2 * MEM_ReadInt(invDefaultWidth_addr);
+    var int width; width = 2 * MEM_ReadInt(CatInv_DefaultWidthAddr);
     if (width <= fontSize){
         width = fontSize;
     };
@@ -68,8 +68,8 @@ func void invDrawCategory() {
         posX = PS_VMax - width - posX;
     };
 
-    var int blendPtr; blendPtr = invBaseBlendFunc_addr + container.invMode * 4; // zTRnd_AlphaBlendFunc
-    var int texPtr; texPtr = MEM_ReadStatArr(invBackTexture_addr, container.invMode);
+    var int blendPtr; blendPtr = CatInv_BaseBlendFuncAddr + container.invMode * 4; // zTRnd_AlphaBlendFunc
+    var int texPtr; texPtr = MEM_ReadStatArr(CatInv_BackTextureAddr, container.invMode);
     var int i255; i255 = 255;
 
     const int call2 = 0;
@@ -77,41 +77,41 @@ func void invDrawCategory() {
         ASM_Open(512); // Manually allocate more space (default: 256 bytes)
 
         CALL_PtrParam(_@(texPtr));
-        CALL__thiscall(_@(invCatViewPtr), zCView__InsertBack);
+        CALL__thiscall(_@(catViewPtr), zCView__InsertBack);
 
         CALL_PtrParam(_@(blendPtr));
-        CALL__thiscall(_@(invCatViewPtr), zCView__SetAlphaBlendFunc);
+        CALL__thiscall(_@(catViewPtr), zCView__SetAlphaBlendFunc);
 
-        CALL_PtrParam(_@(invFontColor_addr));
-        CALL__thiscall(_@(invCatViewPtr), zCView__SetFontColor);
+        CALL_PtrParam(_@(CatInv_FontColorAddr));
+        CALL__thiscall(_@(catViewPtr), zCView__SetFontColor);
 
         CALL_IntParam(_@(i255));
-        CALL__thiscall(_@(invCatViewPtr), zCView__SetTransparency);
+        CALL__thiscall(_@(catViewPtr), zCView__SetTransparency);
 
         CALL_IntParam(_@(posY));
         CALL_IntParam(_@(posX));
-        CALL__thiscall(_@(invCatViewPtr), zCView__SetPos);
+        CALL__thiscall(_@(catViewPtr), zCView__SetPos);
 
         CALL_IntParam(_@(height));
         CALL_IntParam(_@(width));
-        CALL__thiscall(_@(invCatViewPtr), zCView__SetSize);
+        CALL__thiscall(_@(catViewPtr), zCView__SetSize);
 
-        CALL__thiscall(_@(invCatViewPtr), zCView__ClrPrintwin);
+        CALL__thiscall(_@(catViewPtr), zCView__ClrPrintwin);
 
-        CALL__thiscall(_@(invCatViewPtr), zCView__Blit);
+        CALL__thiscall(_@(catViewPtr), zCView__Blit);
 
-        CALL_PtrParam(_@(invTitleTexture_addr));
-        CALL__thiscall(_@(invCatViewPtr), zCView__InsertBack);
+        CALL_PtrParam(_@(CatInv_TitleTextureAddr));
+        CALL__thiscall(_@(catViewPtr), zCView__InsertBack);
 
-        CALL_PtrParam(_@(invDefaultAlphaFunc_addr));
-        CALL__thiscall(_@(invCatViewPtr), zCView__SetAlphaBlendFunc);
+        CALL_PtrParam(_@(CatInv_DefaultAlphaFuncAddr));
+        CALL__thiscall(_@(catViewPtr), zCView__SetAlphaBlendFunc);
 
         CALL_PtrParam(_@(textPtr));
-        CALL__thiscall(_@(invCatViewPtr), zCView__PrintCXY);
+        CALL__thiscall(_@(catViewPtr), zCView__PrintCXY);
 
-        CALL__thiscall(_@(invCatViewPtr), zCView__Blit);
+        CALL__thiscall(_@(catViewPtr), zCView__Blit);
 
-        CALL_PtrParam(_@(invCatViewPtr));
+        CALL_PtrParam(_@(catViewPtr));
         CALL__thiscall(_@(screenPtr), zCView__RemoveItem);
 
         call2 = CALL_End();

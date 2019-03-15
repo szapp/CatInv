@@ -12,18 +12,18 @@
 /*
  * Add item to oCItemContainer (only in conjunction with looting oCMobContainers)
  */
-func void invContainerInsert() {
+func void CatInv_ContainerInsert() {
     var oCItemContainer container; container = _^(EBP);
     if (container.vtbl != oCItemContainer___vftable)
     || (container.invMode != INV_MODE_MOB)
-    || (!_invBackupList) {
+    || (!_CatInv_BackupList) {
         return;
     };
 
     const int call = 0;
     if (CALL_Begin(call)) {
         CALL_PtrParam(_@(ESI));
-        CALL__thiscall(_@(_invBackupList), zCListSort_oCItem___InsertSort);
+        CALL__thiscall(_@(_CatInv_BackupList), zCListSort_oCItem___InsertSort);
         call = CALL_End();
     };
 };
@@ -32,18 +32,18 @@ func void invContainerInsert() {
 /*
  * Remove item from oCItemContainer (only in conjunction with looting oCMobContainers)
  */
-func void invContainerRemove() {
+func void CatInv_ContainerRemove() {
     var oCItemContainer container; container = _^(EBX);
     if (container.vtbl != oCItemContainer___vftable)
     || (container.invMode != INV_MODE_MOB)
-    || (!_invBackupList) {
+    || (!_CatInv_BackupList) {
         return;
     };
 
     const int call = 0;
     if (CALL_Begin(call)) {
         CALL_PtrParam(_@(ESI));
-        CALL__thiscall(_@(_invBackupList), zCListSort_oCItem___Remove);
+        CALL__thiscall(_@(_CatInv_BackupList), zCListSort_oCItem___Remove);
         call = CALL_End();
     };
 };
@@ -52,8 +52,8 @@ func void invContainerRemove() {
 /*
  * Add item to oCNpcInventory
  */
-func void invNpcInvInsert() {
-    if (!invActiveCategory) {
+func void CatInv_NpcInvInsert() {
+    if (!CatInv_ActiveCategory) {
         return;
     };
 
@@ -85,8 +85,8 @@ func void invNpcInvInsert() {
 /*
  * Remove item from oCNpcInventory
  */
-func void invNpcInvRemove() {
-    if (!invActiveCategory) {
+func void CatInv_NpcInvRemove() {
+    if (!CatInv_ActiveCategory) {
         return;
     };
 
@@ -113,15 +113,15 @@ func void invNpcInvRemove() {
         call = CALL_End();
     };
 };
-func void invNpcInvRemoveByPtr() {
+func void CatInv_NpcInvRemoveByPtr() {
     var int bak; bak = EBX;
     EBX = EBP;
-    invNpcInvRemove();
+    CatInv_NpcInvRemove();
     EBX = bak;
 };
-func void invNpcInvRemoveItem() {
+func void CatInv_NpcInvRemoveItem() {
     var int bak; bak = ESI;
     ESI = EDI;
-    invNpcInvRemove();
+    CatInv_NpcInvRemove();
     ESI = bak;
 };

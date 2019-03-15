@@ -12,7 +12,7 @@
 /*
  * Find first item in list that is non-active
  */
-func int invNextNonActiveItem(var int list, var int max) {
+func int CatInv_NextNonActiveItem(var int list, var int max) {
     var int i; i = 0;
     var zCListSort l;
     while((list) && (i < max));
@@ -33,7 +33,7 @@ func int invNextNonActiveItem(var int list, var int max) {
 /*
  * Find last item in list that is non-active
  */
-func int invLastNonActiveItem(var int list, var int max) {
+func int CatInv_LastNonActiveItem(var int list, var int max) {
     var int i; i = 0;
     var int j; j = max;
     var zCListSort l;
@@ -55,7 +55,7 @@ func int invLastNonActiveItem(var int list, var int max) {
 /*
  * Intercept moving the selection to the right ("next")
  */
-func void invRight() {
+func void CatInv_Right() {
     var oCItemContainer container; container = _^(ESI);
     var int switchView; switchView = 0; // -1 = no, 1 = yes, 0 = auto
     var int selLastCol; selLastCol = TRUE;
@@ -65,8 +65,8 @@ func void invRight() {
         // Quick-switch category
         switchView = -1;
         selLastCol = FALSE;
-        var int dump; dump = invShiftCategory(1);
-    } else if STR_ToInt(MEM_GetGothOpt("GAME", "invCatChangeOnLast")) {
+        var int dump; dump = CatInv_ShiftCategory(1);
+    } else if (CatInv_ChangeOnLast) {
         // Calling this engine function is faster than counting in Daedalus
         var int numItems;
         var int contents; contents = container.contents;
@@ -79,7 +79,7 @@ func void invRight() {
 
         if (((container.selectedItem+1) % container.maxSlotsCol) == 0) || (container.selectedItem+1 >= numItems) {
             // Switch category if at edge of inventory window
-            if (invShiftCategory(1)) {
+            if (CatInv_ShiftCategory(1)) {
                 switchView = -1;
             };
         } else if (container.m_bManipulateItemsDisabled) {
@@ -88,8 +88,8 @@ func void invRight() {
             var int list; list = List_NodeS(container.contents, (container.selectedItem+1 /* First list element empty */
                                                                                        +1 /* Moving selection */
                                                                                        +1 /* Counts from 1 */));
-            if (invNextNonActiveItem(list, colToGo) == colToGo) {
-                if (invShiftCategory(1)) {
+            if (CatInv_NextNonActiveItem(list, colToGo) == colToGo) {
+                if (CatInv_ShiftCategory(1)) {
                     switchView = -1;
                 };
             };
@@ -127,7 +127,7 @@ func void invRight() {
 /*
  * Intercept moving the selection to the left ("previous")
  */
-func void invLeft() {
+func void CatInv_Left() {
     var oCItemContainer container; container = _^(ESI);
     var int switchView; switchView = 0; // -1 = no, 1 = yes, 0 = auto
 
@@ -135,11 +135,11 @@ func void invLeft() {
     || (MEM_KeyPressed(KEY_RSHIFT)) {
         // Quick-switch category
         switchView = -1;
-        var int dump; dump = invShiftCategory(-1);
-    } else if (STR_ToInt(MEM_GetGothOpt("GAME", "invCatChangeOnLast"))) {
+        var int dump; dump = CatInv_ShiftCategory(-1);
+    } else if (CatInv_ChangeOnLast) {
         if ((container.selectedItem % container.maxSlotsCol) == 0) || (container.selectedItem <= 0) {
             // Switch category if at edge of inventory window
-            if (invShiftCategory(-1)) {
+            if (CatInv_ShiftCategory(-1)) {
                 switchView = -1;
             };
         } else if (container.m_bManipulateItemsDisabled) {
@@ -147,8 +147,8 @@ func void invLeft() {
             var int colToGo; colToGo = container.selectedItem - (container.selectedItem % container.maxSlotsCol);
             var int list; list = List_NodeS(container.contents, (colToGo+1 /* First list element empty */
                                                                         +1 /* Counts from 1 */));
-            if (invNextNonActiveItem(list, container.selectedItem) + colToGo == container.selectedItem) {
-                if (invShiftCategory(-1)) {
+            if (CatInv_NextNonActiveItem(list, container.selectedItem) + colToGo == container.selectedItem) {
+                if (CatInv_ShiftCategory(-1)) {
                     switchView = -1;
                 };
             };
@@ -181,7 +181,7 @@ func void invLeft() {
 /*
  * Switch to next open container (if split screen)
  */
-func int invSwitchContainer(var int container) {
+func int CatInv_SwitchContainer(var int container) {
     // Check if two containers are open at the same time (trading/looting)
     var int splitscreen;
     const int call = 0;
@@ -227,7 +227,7 @@ func int invSwitchContainer(var int container) {
 /*
  * Check if a key binding is toggled (== pressed once)
  */
-func int invKeyBindingIsToggled(var int keyStroke, var int keyBinding) {
+func int CatInv_KeyBindingIsToggled(var int keyStroke, var int keyBinding) {
     var int zptr; zptr = MEM_ReadInt(zCInput_zinput);
     const int call = 0;
     if (CALL_Begin(call)) {
@@ -246,61 +246,61 @@ func int invKeyBindingIsToggled(var int keyStroke, var int keyBinding) {
 /*
  * Check (additional) key strokes for most container types
  */
-func void invHandleEvent(var int keyStroke, var int container) {
+func void CatInv_HandleEvent(var int keyStroke, var int container) {
     var int dump;
     if (keyStroke == KEY_HOME) {
         if (MEM_KeyPressed(KEY_LSHIFT))
         || (MEM_KeyPressed(KEY_RSHIFT)) {
-            dump = invSetCategoryFirst();
+            dump = CatInv_SetCategoryFirst();
         } else {
-            invSetSelectionFirst(container);
+            CatInv_SetSelectionFirst(container);
         };
     } else if (keyStroke == KEY_END) {
         if (MEM_KeyPressed(KEY_LSHIFT))
         || (MEM_KeyPressed(KEY_RSHIFT)) {
-            dump = invSetCategoryLast();
+            dump = CatInv_SetCategoryLast();
         } else {
-            invSetSelectionLast(container);
+            CatInv_SetSelectionLast(container);
         };
-    } else if (invKeyBindingIsToggled(keyStroke, zOPT_GAMEKEY_WEAPON)) {
-        dump = invSwitchContainer(container);
+    } else if (CatInv_KeyBindingIsToggled(keyStroke, zOPT_GAMEKEY_WEAPON)) {
+        dump = CatInv_SwitchContainer(container);
     };
 };
-func void invHandleEventEDI() {
-    invHandleEvent(EDI, ESI);
+func void CatInv_HandleEventEDI() {
+    CatInv_HandleEvent(EDI, ESI);
 };
-func void invHandleEventEBX() {
+func void CatInv_HandleEventEBX() {
     var int viewDiaItmCon;
     if (MEM_ReadInt(EBP+oCViewDialogTrade_right_offset)) {
         viewDiaItmCon = MEM_ReadInt(EBP+oCViewDialogTrade_containerRight_offset);
     } else {
         viewDiaItmCon = MEM_ReadInt(EBP+oCViewDialogTrade_containerLeft_offset);
     };
-    invHandleEvent(EBX, MEM_ReadInt(viewDiaItmCon+oCViewDialogItemContainer_itemContainer_offset));
+    CatInv_HandleEvent(EBX, MEM_ReadInt(viewDiaItmCon+oCViewDialogItemContainer_itemContainer_offset));
 };
 
 
 /*
  * Check key (additional) key strokes for oCNpcInventory (special case)
  */
-func void invHandleEventNpcInventory() {
-    EAX = invKeyBindingIsToggled(ESI, zOPT_GAMEKEY_WEAPON);
+func void CatInv_HandleEventNpcInventory() {
+    EAX = CatInv_KeyBindingIsToggled(ESI, zOPT_GAMEKEY_WEAPON);
     if (EAX) {
-        EAX = !invSwitchContainer(EBP);
+        EAX = !CatInv_SwitchContainer(EBP);
     } else if (ESI == KEY_HOME) {
         if (MEM_KeyPressed(KEY_LSHIFT))
         || (MEM_KeyPressed(KEY_RSHIFT)) {
-            EAX = invSetCategoryFirst();
+            EAX = CatInv_SetCategoryFirst();
         } else {
-            invSetSelectionFirst(EBP);
+            CatInv_SetSelectionFirst(EBP);
         };
         EAX = 0;
     } else if (ESI == KEY_END) {
         if (MEM_KeyPressed(KEY_LSHIFT))
         || (MEM_KeyPressed(KEY_RSHIFT)) {
-            EAX = invSetCategoryLast();
+            EAX = CatInv_SetCategoryLast();
         } else {
-            invSetSelectionLast(EBP);
+            CatInv_SetSelectionLast(EBP);
         };
         EAX = 0;
     };
@@ -313,7 +313,7 @@ func void invHandleEventNpcInventory() {
 /*
  * Prevent dislocation of mob camera while pressing keyWeapon to switch the container
  */
-func void invDelayMobCamera() {
+func void CatInv_DelayMobCamera() {
     const int call = 0;
     if (CALL_Begin(call)) {
         // CALL_RetValIsFloat();
@@ -341,7 +341,7 @@ func void invDelayMobCamera() {
 /*
  * Check if any non-active items are to the left/right
  */
-func void invClampCategory() {
+func void CatInv_ClampCategory() {
     var oCItemContainer container; container = _^(ESI);
     var C_Item itm; itm = _^(ECX);
     EAX = 0;
@@ -358,7 +358,7 @@ func void invClampCategory() {
     var int list; list = List_NodeS(container.contents, (container.selectedItem+1 /* First list element is empty */
                                                                                +1 /* List_NodeS counts from 1 */));
     var int numItems; numItems = List_LengthS(list);
-    var int iPos; iPos = invNextNonActiveItem(list, numItems);
+    var int iPos; iPos = CatInv_NextNonActiveItem(list, numItems);
 
     if (iPos != numItems) {
         // Found non-active item: Select it
@@ -369,7 +369,7 @@ func void invClampCategory() {
     // If unsuccessful, check for items to the left ("previous")
     list = List_NodeS(container.contents, 1 /* First list element is empty */
                                          +1 /* List_NodeS counts from 1 */);
-    iPos = invLastNonActiveItem(list, container.selectedItem);
+    iPos = CatInv_LastNonActiveItem(list, container.selectedItem);
     if (iPos != container.selectedItem) {
         // Found non-active item: Select it
         container.selectedItem = iPos;
