@@ -10,12 +10,6 @@
 
 
 /*
- * Global constant in case used elsewhere
- */
-const int CatInv_init = 0;
-
-
-/*
  * Initialization function
  */
 func void invInit() {
@@ -55,7 +49,7 @@ func void invInit() {
     // Draw category
     HookEngineF(oCItemContainer__DrawCategory_end, 5, invDrawCategory);
 
-    if (!CatInv_init) {
+    if (!invInitialized) {
         // Handle equipped (active) items in trading menu
         MemoryProtectionOverride(oCItemContainer__CheckSelectedItem_isActive, 5);
         MEM_WriteByte(oCItemContainer__CheckSelectedItem_isActive, ASMINT_OP_nop);
@@ -93,7 +87,7 @@ func void invInit() {
         MEM_WriteInt(oCAIHuman__ChangeCamModeBySituation_switchMobCam+4, ASMINT_OP_nop4times);
         HookEngineF(oCAIHuman__ChangeCamModeBySituation_switchMobCam, 8, invDelayMobCamera);
 
-        CatInv_init = 1;
+        invInitialized = 1;
     };
 
     // Introducing the INI entry if not present

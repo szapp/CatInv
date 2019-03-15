@@ -117,3 +117,5 @@ const int ASMINT_OP_add4ESP   = -1878735741; //83 C4 04 90   add  esp, 4h
 var   int invActiveCategory;
 const int _invCurrentList = 0;
 const int _invBackupList  = 0; // Only for oCItemContainer (NPCs handled differently)
+
+const int invInitialized  = 0; // Global in case used elsewhere
