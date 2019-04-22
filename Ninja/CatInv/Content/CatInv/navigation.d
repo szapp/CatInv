@@ -179,48 +179,22 @@ func void CatInv_Left() {
 
 
 /*
- * Switch to next open container (if split screen)
+ * Switch to next open container
  */
 func int CatInv_SwitchContainer(var int container) {
-    // Check if two containers are open at the same time (trading/looting)
-    var int splitscreen;
+    var oCItemContainer con; con = _^(container);
+    var int dir; dir = -con.right; // To the left if dir < 0, to the right otherwise
+
     const int call = 0;
     if (CALL_Begin(call)) {
-        CALL_PutRetValTo(_@(splitscreen));
-        CALL__thiscall(_@(container), oCItemContainer__IsSplitScreen);
+        CALL_IntParam(_@(dir));
+        CALL_PutRetValTo(_@(ret));
+        CALL__thiscall(_@(container), oCItemContainer__ActivateNextContainer);
         call = CALL_End();
     };
-    if (!splitscreen) {
-        return FALSE;
-    };
 
-    var oCItemContainer con; con = _^(container);
-    var int otherContainer;
-    if (con.right) {
-        const int call2 = 0;
-        if (CALL_Begin(call2)) {
-            CALL_PtrParam(_@(container));
-            CALL_PutRetValTo(_@(otherContainer));
-            CALL__stdcall(oCItemContainer__GetNextContainerLeft);
-            call2 = CALL_End();
-        };
-    } else {
-        const int call3 = 0;
-        if (CALL_Begin(call3)) {
-            CALL_PtrParam(_@(container));
-            CALL_PutRetValTo(_@(otherContainer));
-            CALL__stdcall(oCItemContainer__GetNextContainerRight);
-            call3 = CALL_End();
-        };
-    };
-
-    const int call4 = 0;
-    if (CALL_Begin(call4)) {
-        CALL__thiscall(_@(otherContainer), oCItemContainer__Activate);
-        call4 = CALL_End();
-    };
-
-    return TRUE;
+    var int ret;
+    return +ret;
 };
 
 
@@ -281,7 +255,7 @@ func void CatInv_HandleEventEBX() {
 
 
 /*
- * Check key (additional) key strokes for oCNpcInventory (special case)
+ * Check (additional) key strokes for oCNpcInventory (special case)
  */
 func void CatInv_HandleEventNpcInventory() {
     EAX = CatInv_KeyBindingIsToggled(ESI, zOPT_GAMEKEY_WEAPON);

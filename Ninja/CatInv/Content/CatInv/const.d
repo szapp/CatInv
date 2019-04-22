@@ -11,14 +11,11 @@
 
 const int invCatOrder                                           =  9137120; //0x8B6BE0
 const int oCItemContainer___vftable                             =  8635564; //0x83C4AC
-const int oCItemContainer__IsSplitScreen                        =  7380544; //0x709E40
+const int oCItemContainer__ActivateNextContainer                =  7381328; //0x70A150
 const int oCItemContainer__NextItem_check1                      =  7378846; //0x70979E
 const int oCItemContainer__NextItem_check2                      =  7379134; //0x7098BE
 const int oCItemContainer__PrevItem_check1                      =  7379779; //0x709B43
 const int oCItemContainer__PrevItem_check2                      =  7380061; //0x709C5D
-const int oCItemContainer__GetNextContainerLeft                 =  7359424; //0x704BC0
-const int oCItemContainer__GetNextContainerRight                =  7359584; //0x704C60
-const int oCItemContainer__Activate                             =  7377456; //0x709230
 const int oCNpc__CloseDeadNpc                                   =  7744320; //0x762B40
 const int oCNpcContainer___vftable                              =  8635972; //0x83C644
 const int oCNpcContainer__CreateList                            =  7386480; //0x70B570
@@ -91,7 +88,7 @@ const int oCViewDialogTrade_containerRight_offset               =  16; //0x010
 const int oCViewDialogTrade_right_offset                        =  20; //0x014
 const int oCViewDialogItemContainer_itemContainer_offset        = 256; //0x100
 
-const int zOPT_GAMEKEY_WEAPON = 8;
+const int zOPT_GAMEKEY_WEAPON  = 8;
 
 const int INV_MODE_PLAYER      = 0;
 const int INV_MODE_MOB         = 1;
