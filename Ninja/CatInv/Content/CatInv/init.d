@@ -92,9 +92,13 @@ func void CatInv_Init() {
         CatInv_Initialized = 1;
     };
 
-    // Introducing the INI entry if not present
+    // Introducing the INI entries if not present
     if (!MEM_GothOptExists("GAME", "invCatChangeOnLast")) {
         MEM_SetGothOpt("GAME", "invCatChangeOnLast", "0");
     };
+    if (!MEM_GothOptExists("GAME", "invCatLeft")) {
+        MEM_SetGothOpt("GAME", "invCatLeft", "1");
+    };
     CatInv_ChangeOnLast = STR_ToInt(MEM_GetGothOpt("GAME", "invCatChangeOnLast"));
+    CatInv_CatLeft      = STR_ToInt(MEM_GetGothOpt("GAME", "invCatLeft"));
 };

@@ -19,6 +19,10 @@ func void CatInv_DrawCategory() {
         return;
     };
 
+    if (!CatInv_SupportCat(ESI)) {
+        return;
+    };
+
     const int catViewPtr = 0;
     if (!catViewPtr) {
         catViewPtr = ViewPtr_New();

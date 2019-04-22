@@ -54,6 +54,18 @@ func int CatInv_GetCatID(var int offset) {
 
 
 /*
+ * Check if container supports categories as defined in Gothic.ini (GAME.invCatLeft)
+ */
+func int CatInv_SupportCat(var int container) {
+    if (CatInv_CatLeft) {
+        return TRUE;
+    };
+
+    var oCItemContainer con; con = _^(container);
+    return con.right;
+};
+
+/*
  * Reset the inventory to full view (category == 0)
  */
 func int CatInv_Reset(var int container) {
@@ -98,6 +110,10 @@ func int CatInv_Reset(var int container) {
  * Intercept creation of trading and dead inventory
  */
 func void CatInv_ManipulateCreateList() {
+    if (!CatInv_CatLeft) {
+        return;
+    };
+
     var C_Item itm; itm = _^(ECX);
     if (itm.mainflag == ITEM_KAT_ARMOR) {
         EAX = 1;
@@ -183,6 +199,10 @@ func void CatInv_Update(var int container) {
             List_ForFS(npcInv.inventory_next, CatInv_AddItem);
         };
     } else if (container_vtbl == oCItemContainer___vftable) {
+        if (!CatInv_CatLeft) {
+            return;
+        };
+
         var oCItemContainer itmCon; itmCon = _^(container);
         if (_CatInv_BackupList) {
             CatInv_DeleteListSortFromPool(_CatInv_BackupList, 1); // Some nodes are in zCMemListPool
@@ -212,7 +232,9 @@ func void CatInv_UpdateAll() {
     while(list);
         var zCList l; l = _^(list);
         CatInv_Update(l.data);
-        CatInv_ResetOffset(l.data);
+        if (CatInv_SupportCat(l.data)) {
+            CatInv_ResetOffset(l.data);
+        };
         list = l.next;
     end;
 };

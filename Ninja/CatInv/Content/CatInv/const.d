@@ -120,3 +120,4 @@ const int _CatInv_BackupList  = 0; // Only for oCItemContainer (NPCs handled dif
 
 const int CatInv_Initialized  = 0; // Global in case used elsewhere
 const int CatInv_ChangeOnLast = 0;
+const int CatInv_CatLeft      = 0;
