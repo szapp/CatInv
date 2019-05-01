@@ -96,9 +96,14 @@ func void CatInv_Init() {
     if (!MEM_GothOptExists("GAME", "invCatChangeOnLast")) {
         MEM_SetGothOpt("GAME", "invCatChangeOnLast", "0");
     };
-    if (!MEM_GothOptExists("GAME", "invCatLeft")) {
-        MEM_SetGothOpt("GAME", "invCatLeft", "1");
+    if (!MEM_GothOptExists("GAME", "invCatG1Mode")) {
+        MEM_SetGothOpt("GAME", "invCatG1Mode", "0");
     };
-    CatInv_ChangeOnLast = STR_ToInt(MEM_GetGothOpt("GAME", "invCatChangeOnLast"));
-    CatInv_CatLeft      = STR_ToInt(MEM_GetGothOpt("GAME", "invCatLeft"));
+    CatInv_ChangeOnLast = !!STR_ToInt(MEM_GetGothOpt("GAME", "invCatChangeOnLast"));
+    CatInv_G1Mode       = !!STR_ToInt(MEM_GetGothOpt("GAME", "invCatG1Mode"));
+
+    // Do not show 'all' category
+    if (CatInv_G1Mode) && (!CatInv_ActiveCategory) {
+        CatInv_ActiveCategory += 1;
+    };
 };

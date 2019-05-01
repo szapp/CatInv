@@ -54,16 +54,17 @@ func int CatInv_GetCatID(var int offset) {
 
 
 /*
- * Check if container supports categories as defined in Gothic.ini (GAME.invCatLeft)
+ * Check if container supports categories as defined in Gothic.ini (GAME.invCatG1Mode)
  */
 func int CatInv_SupportCat(var int container) {
-    if (CatInv_CatLeft) {
+    if (!CatInv_G1Mode) {
         return TRUE;
     };
 
     var oCItemContainer con; con = _^(container);
     return con.right;
 };
+
 
 /*
  * Reset the inventory to full view (category == 0)
@@ -110,13 +111,12 @@ func int CatInv_Reset(var int container) {
  * Intercept creation of trading and dead inventory
  */
 func void CatInv_ManipulateCreateList() {
-    if (!CatInv_CatLeft) {
-        return;
-    };
-
     var C_Item itm; itm = _^(ECX);
     if (itm.mainflag == ITEM_KAT_ARMOR) {
         EAX = 1;
+    } else if (CatInv_G1Mode) {
+        // Always full inventory in G1 mode
+        EAX = 0;
     } else if (!CatInv_ActiveCategory) {
         // 'All' category
         EAX = 0;
@@ -199,7 +199,7 @@ func void CatInv_Update(var int container) {
             List_ForFS(npcInv.inventory_next, CatInv_AddItem);
         };
     } else if (container_vtbl == oCItemContainer___vftable) {
-        if (!CatInv_CatLeft) {
+        if (CatInv_G1Mode) {
             return;
         };
 
@@ -241,32 +241,12 @@ func void CatInv_UpdateAll() {
 
 
 /*
- * Intercept opening/closing of any oCItemContainer
- */
-func void CatInv_Open() {
-    // Reset active category when trading or looting
-    var oCItemContainer container; container = _^(ECX);
-    if (container.vtbl != oCNpcInventory___vftable) {
-        CatInv_ActiveCategory = 0;
-        CatInv_ResetOffset(ECX);
-    };
-
-    CatInv_Update(ECX);
-};
-func void CatInv_Close() {
-    if (Hlp_IsValidNpc(hero)) {
-        var int i; i = CatInv_Reset(ESI);
-    };
-};
-
-
-/*
- * Sets the inventory category
+ * Set the inventory category
  */
 func int CatInv_SetCategory(var int pos) {
     var int invNewCategory; invNewCategory = pos;
-    if (invNewCategory < 0) {
-        invNewCategory = 0;
+    if (invNewCategory < CatInv_G1Mode) {
+        invNewCategory = CatInv_G1Mode;
     } else if (invNewCategory >= INV_CAT_MAX) {
         invNewCategory = INV_CAT_MAX-1;
     };
@@ -290,16 +270,42 @@ func int CatInv_ShiftCategory(var int offset) {
 
 
 /*
- * Sets the inventory to the first category ('all')
+ * Set the inventory to the first category ('all')
  */
 func int CatInv_SetCategoryFirst() {
-    return CatInv_SetCategory(0);
+    return CatInv_SetCategory(CatInv_G1Mode);
 };
 
 
 /*
- * Sets the inventory to the last category
+ * Set the inventory to the last category
  */
 func int CatInv_SetCategoryLast() {
     return CatInv_SetCategory(INV_CAT_MAX-1);
+};
+
+
+/*
+ * Intercept opening/closing of any oCItemContainer
+ */
+func void CatInv_Open() {
+    // Reset active category when trading or looting
+    var oCItemContainer container; container = _^(ECX);
+    if (container.vtbl != oCNpcInventory___vftable) {
+        if (!CatInv_G1Mode) {
+            CatInv_SetCategoryFirst();
+        };
+        CatInv_SetSelectionFirst(ECX);
+
+        // Reset selection and offset of player inventory
+        var oCNpc her; her = Hlp_GetNpc(hero);
+        CatInv_SetSelectionFirst(_@(her.inventory2_vtbl));
+    };
+
+    CatInv_Update(ECX);
+};
+func void CatInv_Close() {
+    if (Hlp_IsValidNpc(hero)) {
+        var int i; i = CatInv_Reset(ESI);
+    };
 };

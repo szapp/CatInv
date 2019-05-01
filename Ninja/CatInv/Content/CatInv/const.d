@@ -17,6 +17,7 @@ const int oCItemContainer__NextItem_check2                      =  7379134; //0x
 const int oCItemContainer__PrevItem_check1                      =  7379779; //0x709B43
 const int oCItemContainer__PrevItem_check2                      =  7380061; //0x709C5D
 const int oCNpc__CloseDeadNpc                                   =  7744320; //0x762B40
+const int oCNpc__game_mode                                      = 11216848; //0xAB27D0
 const int oCNpcContainer___vftable                              =  8635972; //0x83C644
 const int oCNpcContainer__CreateList                            =  7386480; //0x70B570
 const int oCNpcInventory___vftable                              =  8636180; //0x83C714
@@ -120,4 +121,4 @@ const int _CatInv_BackupList  = 0; // Only for oCItemContainer (NPCs handled dif
 
 const int CatInv_Initialized  = 0; // Global in case used elsewhere
 const int CatInv_ChangeOnLast = 0;
-const int CatInv_CatLeft      = 0;
+const int CatInv_G1Mode       = 0;

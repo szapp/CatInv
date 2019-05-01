@@ -55,5 +55,7 @@ func void CatInv_PreventCloseDeadInv() {
  * Reset category on opening dead inventory
  */
 func void CatInv_DeadResetCategory() {
-    CatInv_ActiveCategory = 0;
+    if (!CatInv_G1Mode) {
+        CatInv_SetCategoryFirst();
+    };
 };

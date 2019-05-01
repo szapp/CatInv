@@ -60,8 +60,10 @@ func void CatInv_Right() {
     var int switchView; switchView = 0; // -1 = no, 1 = yes, 0 = auto
     var int selLastCol; selLastCol = TRUE;
 
-    if (MEM_KeyPressed(KEY_LSHIFT))
-    || (MEM_KeyPressed(KEY_RSHIFT)) {
+    if (CatInv_G1Mode) && (MEM_ReadInt(oCNpc__game_mode)) {
+        // No action in steal/dead inventory in G1 mode
+        switchView = 0;
+    } else if (MEM_KeyPressed(KEY_LSHIFT)) || (MEM_KeyPressed(KEY_RSHIFT)) {
         // Quick-switch category
         switchView = -1;
         selLastCol = FALSE;
@@ -131,8 +133,10 @@ func void CatInv_Left() {
     var oCItemContainer container; container = _^(ESI);
     var int switchView; switchView = 0; // -1 = no, 1 = yes, 0 = auto
 
-    if (MEM_KeyPressed(KEY_LSHIFT))
-    || (MEM_KeyPressed(KEY_RSHIFT)) {
+    if (CatInv_G1Mode) && (MEM_ReadInt(oCNpc__game_mode)) {
+        // No action in steal/dead inventory in G1 mode
+        switchView = 0;
+    } else if (MEM_KeyPressed(KEY_LSHIFT)) || (MEM_KeyPressed(KEY_RSHIFT)) {
         // Quick-switch category
         switchView = -1;
         var int dump; dump = CatInv_ShiftCategory(-1);
@@ -182,6 +186,11 @@ func void CatInv_Left() {
  * Switch to next open container
  */
 func int CatInv_SwitchContainer(var int container) {
+    // Disable switching for left-only inventory modes
+    if (MEM_ReadInt(oCNpc__game_mode)) {
+        return 0;
+    };
+
     var oCItemContainer con; con = _^(container);
     var int dir; dir = -con.right; // To the left if dir < 0, to the right otherwise
 
@@ -225,14 +234,20 @@ func void CatInv_HandleEvent(var int keyStroke, var int container) {
     if (keyStroke == KEY_HOME) {
         if (MEM_KeyPressed(KEY_LSHIFT))
         || (MEM_KeyPressed(KEY_RSHIFT)) {
-            dump = CatInv_SetCategoryFirst();
+            // Only when not in G1 mode in steal/dead inventory
+            if (!CatInv_G1Mode) || (!MEM_ReadInt(oCNpc__game_mode)) {
+                dump = CatInv_SetCategoryFirst();
+            };
         } else {
             CatInv_SetSelectionFirst(container);
         };
     } else if (keyStroke == KEY_END) {
         if (MEM_KeyPressed(KEY_LSHIFT))
         || (MEM_KeyPressed(KEY_RSHIFT)) {
-            dump = CatInv_SetCategoryLast();
+            // Only when not in G1 mode in steal/dead inventory
+            if (!CatInv_G1Mode) || (!MEM_ReadInt(oCNpc__game_mode)) {
+                dump = CatInv_SetCategoryLast();
+            };
         } else {
             CatInv_SetSelectionLast(container);
         };
@@ -264,7 +279,10 @@ func void CatInv_HandleEventNpcInventory() {
     } else if (ESI == KEY_HOME) {
         if (MEM_KeyPressed(KEY_LSHIFT))
         || (MEM_KeyPressed(KEY_RSHIFT)) {
-            EAX = CatInv_SetCategoryFirst();
+            // Only when not in G1 mode in steal/dead inventory
+            if (!CatInv_G1Mode) || (!MEM_ReadInt(oCNpc__game_mode)) {
+                EAX = CatInv_SetCategoryFirst();
+            };
         } else {
             CatInv_SetSelectionFirst(EBP);
         };
@@ -272,7 +290,10 @@ func void CatInv_HandleEventNpcInventory() {
     } else if (ESI == KEY_END) {
         if (MEM_KeyPressed(KEY_LSHIFT))
         || (MEM_KeyPressed(KEY_RSHIFT)) {
-            EAX = CatInv_SetCategoryLast();
+            // Only when not in G1 mode in steal/dead inventory
+            if (!CatInv_G1Mode) || (!MEM_ReadInt(oCNpc__game_mode)) {
+                EAX = CatInv_SetCategoryLast();
+            };
         } else {
             CatInv_SetSelectionLast(EBP);
         };
