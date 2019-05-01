@@ -80,9 +80,11 @@ func void CatInv_Right() {
         };
 
         if (((container.selectedItem+1) % container.maxSlotsCol) == 0) || (container.selectedItem+1 >= numItems) {
-            // Switch category if at edge of inventory window
-            if (CatInv_ShiftCategory(1)) {
-                switchView = -1;
+            if (!CatInv_G1Mode) || (container.right) {
+                // Switch category if at edge of inventory window
+                if (CatInv_ShiftCategory(1)) {
+                    switchView = -1;
+                };
             };
         } else if (container.m_bManipulateItemsDisabled) {
             // Switch category if all items after the selection are active (equipped) in trading
@@ -91,8 +93,10 @@ func void CatInv_Right() {
                                                                                        +1 /* Moving selection */
                                                                                        +1 /* Counts from 1 */));
             if (CatInv_NextNonActiveItem(list, colToGo) == colToGo) {
-                if (CatInv_ShiftCategory(1)) {
-                    switchView = -1;
+                if (!CatInv_G1Mode) || (container.right) {
+                    if (CatInv_ShiftCategory(1)) {
+                        switchView = -1;
+                    };
                 };
             };
         };
