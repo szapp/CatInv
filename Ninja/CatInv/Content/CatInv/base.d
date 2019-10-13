@@ -112,7 +112,7 @@ func int CatInv_Reset(var int container) {
  */
 func void CatInv_ManipulateCreateList() {
     var C_Item itm; itm = _^(ECX);
-    if (itm.mainflag == ITEM_KAT_ARMOR) {
+    if (itm.mainflag == ITEM_KAT_ARMOR) && (!CatInv_SP18Armor) {
         EAX = 1;
     } else if (CatInv_G1Mode) {
         // Always full inventory in G1 mode

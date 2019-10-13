@@ -73,6 +73,7 @@ const int oCItemContainer__PrevItem_check0                      =  7379750; //0x
 const int oCItemContainer__Remove_removeListNode                =  7378055; //0x709487
 const int oCNpc__OpenDeadNpc_setupInv                           =  7744024; //0x762A18
 const int oCNpcContainer__CreateList_isArmor                    =  7386805; //0x70B6B5
+const int oCNpcContainer__CreateList_isArmor_sp18               =  7386813; //0x70B6BD
 const int oCNpcContainer__HandleEvent_isEmpty                   =  7387581; //0x70B9BD
 const int oCNpcContainer__HandleEvent_last                      =  7387309; //0x70B8AD
 const int oCNpcInventory__Insert_insertListNode                 =  7391400; //0x70C8A8
@@ -81,6 +82,7 @@ const int oCNpcInventory__RemoveByPtr_removeListNode            =  7392546; //0x
 const int oCNpcInventory__RemoveItem_removeListNode             =  7392311; //0x70CC37
 const int oCNpcInventory__HandleEvent_keyWeapon                 =  7402065; //0x70F251
 const int oCStealContainer__CreateList_isArmor                  =  7384900; //0x70AF44
+const int oCStealContainer__CreateList_isArmor_sp18             =  7384909; //0x70AF4D
 const int oCStealContainer__HandleEvent_last                    =  7385640; //0x70B228
 const int oCViewDialogTrade__HandleEvent_last                   =  6862542; //0x68B6CE
 
@@ -114,6 +116,8 @@ const int INV_CAT_GROUPS[INV_CAT_MAX] = {
 const int ASMINT_OP_nop4times = -1869574000; //0x90909090
 const int ASMINT_OP_add4ESP   = -1878735741; //83 C4 04 90   add  esp, 4h
 const int ASMINT_OP_shortJmp  =         235; //0xEB
+
+const int CatInv_SP18Armor    = 0; // Indicate whether SystemPack has unlocked armors
 
 var   int CatInv_ActiveCategory;
 const int _CatInv_CurrentList = 0;

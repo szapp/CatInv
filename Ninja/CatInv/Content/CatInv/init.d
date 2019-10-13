@@ -58,6 +58,18 @@ func void CatInv_Init() {
         MemoryProtectionOverride(oCItemContainer__CheckSelectedItem_isActiveP, 1);
         MEM_WriteByte(oCItemContainer__CheckSelectedItem_isActiveP, ASMINT_OP_shortJmp);
 
+        // Revert changes of SystemPack 1.8 (Armor_unlock_in_trade, Armor_unlock_in_npc)
+        if (MEM_ReadInt(oCStealContainer__CreateList_isArmor_sp18) == 0) {
+            MemoryProtectionOverride(oCStealContainer__CreateList_isArmor_sp18, 4);
+            MEM_WriteInt(oCStealContainer__CreateList_isArmor_sp18, /*0F 01 00 00*/ 271);
+            CatInv_SP18Armor = TRUE;
+        };
+        if (MEM_ReadInt(oCNpcContainer__CreateList_isArmor_sp18) == 0) {
+            MemoryProtectionOverride(oCNpcContainer__CreateList_isArmor_sp18, 4);
+            MEM_WriteByte(oCStealContainer__CreateList_isArmor_sp18, /*1A*/ 26);
+            CatInv_SP18Armor = TRUE;
+        };
+
         // Manipulate trading inventory
         MemoryProtectionOverride(oCStealContainer__CreateList_isArmor, 5);
         MEM_WriteByte(oCStealContainer__CreateList_isArmor, ASMINT_OP_nop);
