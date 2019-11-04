@@ -65,8 +65,8 @@ func void CatInv_Init() {
             CatInv_SP18Armor = TRUE;
         };
         if (MEM_ReadInt(oCNpcContainer__CreateList_isArmor_sp18) == 0) {
-            MemoryProtectionOverride(oCNpcContainer__CreateList_isArmor_sp18, 4);
-            MEM_WriteByte(oCStealContainer__CreateList_isArmor_sp18, /*1A*/ 26);
+            MemoryProtectionOverride(oCNpcContainer__CreateList_isArmor_sp18, 1);
+            MEM_WriteByte(oCNpcContainer__CreateList_isArmor_sp18, /*1A*/ 26);
             CatInv_SP18Armor = TRUE;
         };
 
