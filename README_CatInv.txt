@@ -31,7 +31,7 @@ Notes
 
 Patch includes CatInv.
 
-CatInv, Copyright (C) 2018-2019  mud-freak (@szapp).
+CatInv, Copyright (C) 2018-2020  mud-freak (@szapp).
 Released under the MIT License.
 Full license in Ninja\CatInv\Content\CatInv\LICENSE
 

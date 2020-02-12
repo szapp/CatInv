@@ -1,5 +1,5 @@
 [BEGINVDF]
-Comment=Categorized inventory for Gothic 2 NotR%%NThis patch extends the inventory by browsable categories.%%NCatInv, Copyright (C) 2018-2019  mud-freak (@szapp), subject to MIT License
+Comment=Categorized inventory for Gothic 2 NotR%%NThis patch extends the inventory by browsable categories.%%NCatInv, Copyright (C) 2018-2020  mud-freak (@szapp), subject to MIT License
 BaseDir=.\
 VDFName=.\CatInv.vdf
 
