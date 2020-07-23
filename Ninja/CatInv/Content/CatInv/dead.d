@@ -23,8 +23,8 @@ func int CatInv_NpcContainerIsEmpty(var int container, var int includeEquipped, 
                 l = _^(list);
                 if (Hlp_Is_oCItem(l.data)) {
                     var C_Item itm; itm = _^(l.data);
-                    if (includeEquipped || ((itm.flags & ITEM_ACTIVE) != ITEM_ACTIVE))
-                    && (includeArmor || (itm.mainflag != ITEM_KAT_ARMOR)) {
+                    if (includeEquipped || ((itm.flags & /*ITEM_ACTIVE*/ (1 << 30)) != /*ITEM_ACTIVE*/ (1 << 30)))
+                    && (includeArmor || (itm.mainflag != /*ITEM_KAT_ARMOR*/ (1 << 4))) {
                         return FALSE;
                     };
                 };

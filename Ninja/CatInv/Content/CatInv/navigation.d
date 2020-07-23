@@ -19,7 +19,7 @@ func int CatInv_NextNonActiveItem(var int list, var int max) {
         l = _^(list);
         if (Hlp_Is_oCItem(l.data)) {
             var C_Item itm; itm = _^(l.data);
-            if ((itm.flags & ITEM_ACTIVE) != ITEM_ACTIVE) {
+            if ((itm.flags & /*ITEM_ACTIVE*/ (1 << 30)) != /*ITEM_ACTIVE*/ (1 << 30)) {
                 break;
             };
             i += 1;
@@ -41,7 +41,7 @@ func int CatInv_LastNonActiveItem(var int list, var int max) {
         l = _^(list);
         if (Hlp_Is_oCItem(l.data)) {
             var C_Item itm; itm = _^(l.data);
-            if ((itm.flags & ITEM_ACTIVE) != ITEM_ACTIVE) {
+            if ((itm.flags & /*ITEM_ACTIVE*/ (1 << 30)) != /*ITEM_ACTIVE*/ (1 << 30)) {
                 j = i;
             };
             i += 1;
@@ -349,7 +349,7 @@ func void CatInv_ClampCategory() {
         return;
     };
 
-    if ((itm.flags & ITEM_ACTIVE) != ITEM_ACTIVE) {
+    if ((itm.flags & /*ITEM_ACTIVE*/ (1 << 30)) != /*ITEM_ACTIVE*/ (1 << 30)) {
         return;
     };
 
