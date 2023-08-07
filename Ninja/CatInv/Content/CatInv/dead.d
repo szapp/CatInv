@@ -1,6 +1,6 @@
 /*
  * This file is part of CatInv.
- * Copyright (C) 2018-2020  mud-freak (@szapp)
+ * Copyright (C) 2018-2023  mud-freak (@szapp)
  *
  * CatInv is free software: you can redistribute it and/or
  * modify it under the terms of the MIT License.
@@ -13,6 +13,8 @@
  * Re-implementation of oCNpcContainer::IsEmpty, which is an "abandoned", bugged function
  */
 func int CatInv_NpcContainerIsEmpty(var int container, var int includeEquipped, var int includeArmor) {
+    const int ITEM_KAT_ARMOR = 1 <<  4;
+    const int ITEM_ACTIVE    = 1 << 30;
     var oCNpcInventory con; con = _^(container);
     if (con.owner) {
         var oCNpc owner; owner = _^(con.owner);
@@ -23,8 +25,8 @@ func int CatInv_NpcContainerIsEmpty(var int container, var int includeEquipped, 
                 l = _^(list);
                 if (Hlp_Is_oCItem(l.data)) {
                     var C_Item itm; itm = _^(l.data);
-                    if (includeEquipped || ((itm.flags & /*ITEM_ACTIVE*/ (1 << 30)) != /*ITEM_ACTIVE*/ (1 << 30)))
-                    && (includeArmor || (itm.mainflag != /*ITEM_KAT_ARMOR*/ (1 << 4))) {
+                    if (includeEquipped || ((itm.flags & ITEM_ACTIVE) != ITEM_ACTIVE))
+                    && (includeArmor || (itm.mainflag != ITEM_KAT_ARMOR)) {
                         return FALSE;
                     };
                 };

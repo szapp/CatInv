@@ -1,6 +1,6 @@
 /*
  * This file is part of CatInv.
- * Copyright (C) 2018-2020  mud-freak (@szapp)
+ * Copyright (C) 2018-2023  mud-freak (@szapp)
  *
  * CatInv is free software: you can redistribute it and/or
  * modify it under the terms of the MIT License.
@@ -42,7 +42,8 @@ func int CatInv_GetCatID(var int offset) {
     // Skip "NONE" category
     offset += (offset > MEM_ReadInt(invCatOrder));
 
-    repeat(i, /*INV_CAT_MAX*/ 9 + 1); var int i;
+    const int INV_CAT_MAX = 9;
+    repeat(i, INV_CAT_MAX + 1); var int i;
         if (MEM_ReadIntArray(invCatOrder, i) == offset-1) {
             return i;
         };
@@ -111,8 +112,9 @@ func int CatInv_Reset(var int container) {
  * Intercept creation of trading and dead inventory
  */
 func void CatInv_ManipulateCreateList() {
+    const int ITEM_KAT_ARMOR = 1 << 4;
     var C_Item itm; itm = _^(ECX);
-    if (itm.mainflag == /*ITEM_KAT_ARMOR*/(1 << 4)) && (!CatInv_SP18Armor) {
+    if (itm.mainflag == ITEM_KAT_ARMOR) && (!CatInv_SP18Armor) {
         EAX = 1;
     } else if (CatInv_G1Mode) {
         // Always full inventory in G1 mode
@@ -244,11 +246,12 @@ func void CatInv_UpdateAll() {
  * Set the inventory category
  */
 func int CatInv_SetCategory(var int pos) {
+    const int INV_CAT_MAX = 9;
     var int invNewCategory; invNewCategory = pos;
     if (invNewCategory < CatInv_G1Mode) {
         invNewCategory = CatInv_G1Mode;
-    } else if (invNewCategory >= /*INV_CAT_MAX*/ 9) {
-        invNewCategory = /*INV_CAT_MAX*/ 9-1;
+    } else if (invNewCategory >= INV_CAT_MAX) {
+        invNewCategory = INV_CAT_MAX-1;
     };
 
     if (invNewCategory == CatInv_ActiveCategory) {
@@ -281,7 +284,8 @@ func int CatInv_SetCategoryFirst() {
  * Set the inventory to the last category
  */
 func int CatInv_SetCategoryLast() {
-    return CatInv_SetCategory(/*INV_CAT_MAX*/9-1);
+    const int INV_CAT_MAX = 9;
+    return CatInv_SetCategory(INV_CAT_MAX-1);
 };
 
 

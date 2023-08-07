@@ -1,6 +1,6 @@
 /*
  * This file is part of CatInv.
- * Copyright (C) 2018-2020  mud-freak (@szapp)
+ * Copyright (C) 2018-2023  mud-freak (@szapp)
  *
  * CatInv is free software: you can redistribute it and/or
  * modify it under the terms of the MIT License.
@@ -13,7 +13,7 @@
  * Add item to oCItemContainer (only in conjunction with looting oCMobContainers)
  */
 func void CatInv_ContainerInsert() {
-    var oCItemContainer container; container = _^(EBP);
+    var oCItemContainer container; container = _^(MEMINT_SwitchExe(0,0,EDI,EBP));
     if (container.vtbl != oCItemContainer___vftable)
     || (container.invMode != INV_MODE_MOB)
     || (!_CatInv_BackupList) {

@@ -1,6 +1,6 @@
 /*
  * This file is part of CatInv.
- * Copyright (C) 2018-2020  mud-freak (@szapp)
+ * Copyright (C) 2018-2023  mud-freak (@szapp)
  *
  * CatInv is free software: you can redistribute it and/or
  * modify it under the terms of the MIT License.
@@ -13,13 +13,14 @@
  * Find first item in list that is non-active
  */
 func int CatInv_NextNonActiveItem(var int list, var int max) {
+    const int ITEM_ACTIVE = 1 << 30;
     var int i; i = 0;
     var zCListSort l;
     while((list) && (i < max));
         l = _^(list);
         if (Hlp_Is_oCItem(l.data)) {
             var C_Item itm; itm = _^(l.data);
-            if ((itm.flags & /*ITEM_ACTIVE*/ (1 << 30)) != /*ITEM_ACTIVE*/ (1 << 30)) {
+            if ((itm.flags & ITEM_ACTIVE) != ITEM_ACTIVE) {
                 break;
             };
             i += 1;
@@ -34,6 +35,7 @@ func int CatInv_NextNonActiveItem(var int list, var int max) {
  * Find last item in list that is non-active
  */
 func int CatInv_LastNonActiveItem(var int list, var int max) {
+    const int ITEM_ACTIVE = 1 << 30;
     var int i; i = 0;
     var int j; j = max;
     var zCListSort l;
@@ -41,7 +43,7 @@ func int CatInv_LastNonActiveItem(var int list, var int max) {
         l = _^(list);
         if (Hlp_Is_oCItem(l.data)) {
             var C_Item itm; itm = _^(l.data);
-            if ((itm.flags & /*ITEM_ACTIVE*/ (1 << 30)) != /*ITEM_ACTIVE*/ (1 << 30)) {
+            if ((itm.flags & ITEM_ACTIVE) != ITEM_ACTIVE) {
                 j = i;
             };
             i += 1;
@@ -341,6 +343,7 @@ func void CatInv_DelayMobCamera() {
  * Check if any non-active items are to the left/right
  */
 func void CatInv_ClampCategory() {
+    const int ITEM_ACTIVE = 1 << 30;
     var oCItemContainer container; container = _^(ESI);
     var C_Item itm; itm = _^(ECX);
     EAX = 0;
@@ -349,7 +352,7 @@ func void CatInv_ClampCategory() {
         return;
     };
 
-    if ((itm.flags & /*ITEM_ACTIVE*/ (1 << 30)) != /*ITEM_ACTIVE*/ (1 << 30)) {
+    if ((itm.flags & ITEM_ACTIVE) != ITEM_ACTIVE) {
         return;
     };
 
