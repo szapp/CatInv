@@ -28,7 +28,7 @@ func void CatInv_DrawCategory() {
         catViewPtr = ViewPtr_New();
     };
 
-    var oCItemContainer container; container = _^(ESI);
+    var CatInv_oCItemContainer container; container = _^(ESI);
     var zCView viewTitle; viewTitle = _^(EAX); // zCView* (oCItemContainer.viewTitle)
     var int screenPtr; screenPtr = ECX; // zCView*
 
@@ -44,15 +44,15 @@ func void CatInv_DrawCategory() {
     if (CALL_Begin(call)) {
         CALL_IntParam(_@(zero));
         CALL_PtrParam(_@(catViewPtr));
-        CALL__thiscall(_@(screenPtr), zCView__InsertItem);
+        CALL__thiscall(_@(screenPtr), CatInv_zCView__InsertItem);
 
         CALL_PutRetValTo(_@(padding));
         CALL_IntParam(_@(ten));
-        CALL__thiscall(_@(screenPtr), zCView__anx);
+        CALL__thiscall(_@(screenPtr), CatInv_zCView__anx);
 
         CALL_PutRetValTo(_@(fontSize));
         CALL_PtrParam(_@(textPtr));
-        CALL__thiscall(_@(screenPtr), zCView__FontSize);
+        CALL__thiscall(_@(screenPtr), CatInv_zCView__FontSize);
 
         call = CALL_End();
     };
@@ -84,39 +84,39 @@ func void CatInv_DrawCategory() {
         CALL__thiscall(_@(catViewPtr), zCView__InsertBack);
 
         CALL_PtrParam(_@(blendPtr));
-        CALL__thiscall(_@(catViewPtr), zCView__SetAlphaBlendFunc);
+        CALL__thiscall(_@(catViewPtr), CatInv_zCView__SetAlphaBlendFunc);
 
         CALL_PtrParam(_@(CatInv_FontColorAddr));
-        CALL__thiscall(_@(catViewPtr), zCView__SetFontColor);
+        CALL__thiscall(_@(catViewPtr), CatInv_zCView__SetFontColor);
 
         CALL_IntParam(_@(i255));
-        CALL__thiscall(_@(catViewPtr), zCView__SetTransparency);
+        CALL__thiscall(_@(catViewPtr), CatInv_zCView__SetTransparency);
 
         CALL_IntParam(_@(posY));
         CALL_IntParam(_@(posX));
-        CALL__thiscall(_@(catViewPtr), zCView__SetPos);
+        CALL__thiscall(_@(catViewPtr), CatInv_zCView__SetPos);
 
         CALL_IntParam(_@(height));
         CALL_IntParam(_@(width));
-        CALL__thiscall(_@(catViewPtr), zCView__SetSize);
+        CALL__thiscall(_@(catViewPtr), CatInv_zCView__SetSize);
 
-        CALL__thiscall(_@(catViewPtr), zCView__ClrPrintwin);
+        CALL__thiscall(_@(catViewPtr), CatInv_zCView__ClrPrintwin);
 
-        CALL__thiscall(_@(catViewPtr), zCView__Blit);
+        CALL__thiscall(_@(catViewPtr), CatInv_zCView__Blit);
 
         CALL_PtrParam(_@(CatInv_TitleTextureAddr));
         CALL__thiscall(_@(catViewPtr), zCView__InsertBack);
 
         CALL_PtrParam(_@(CatInv_DefaultAlphaFuncAddr));
-        CALL__thiscall(_@(catViewPtr), zCView__SetAlphaBlendFunc);
+        CALL__thiscall(_@(catViewPtr), CatInv_zCView__SetAlphaBlendFunc);
 
         CALL_PtrParam(_@(textPtr));
-        CALL__thiscall(_@(catViewPtr), zCView__PrintCXY);
+        CALL__thiscall(_@(catViewPtr), CatInv_zCView__PrintCXY);
 
-        CALL__thiscall(_@(catViewPtr), zCView__Blit);
+        CALL__thiscall(_@(catViewPtr), CatInv_zCView__Blit);
 
         CALL_PtrParam(_@(catViewPtr));
-        CALL__thiscall(_@(screenPtr), zCView__RemoveItem);
+        CALL__thiscall(_@(screenPtr), CatInv_zCView__RemoveItem);
 
         call2 = CALL_End();
     };

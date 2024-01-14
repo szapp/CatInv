@@ -1,4 +1,4 @@
-class oCItemContainer {
+class CatInv_oCItemContainer {
   var int    vtbl;                                            // 0x00
   var int    contents;                                        // 0x04 zCListSort<oCItem>*
   var int    npc;                                             // 0x08 oCNpc*
@@ -38,7 +38,7 @@ class oCItemContainer {
 };                                                            // 0xA0 sizeof_oCItemContainer
 
 
-class oCNpcInventory {
+class CatInv_oCNpcInventory {
   //oCItemContainer {
   var int    vtbl;                                            // 0x00
   var int    _oCItemContainer_contents;                       // 0x04 zCListSort<oCItem>*

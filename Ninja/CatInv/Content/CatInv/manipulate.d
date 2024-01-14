@@ -13,9 +13,9 @@
  * Add item to oCItemContainer (only in conjunction with looting oCMobContainers)
  */
 func void CatInv_ContainerInsert() {
-    var oCItemContainer container; container = _^(MEMINT_SwitchExe(0,0,EDI,EBP));
-    if (container.vtbl != oCItemContainer___vftable)
-    || (container.invMode != INV_MODE_MOB)
+    var CatInv_oCItemContainer container; container = _^(MEMINT_SwitchExe(0,0,EDI,EBP));
+    if (container.vtbl != CatInv_oCItemContainer___vftable)
+    || (container.invMode != CatInv_INV_MODE_MOB)
     || (!_CatInv_BackupList) {
         return;
     };
@@ -23,7 +23,7 @@ func void CatInv_ContainerInsert() {
     const int call = 0;
     if (CALL_Begin(call)) {
         CALL_PtrParam(_@(ESI));
-        CALL__thiscall(_@(_CatInv_BackupList), zCListSort_oCItem___InsertSort);
+        CALL__thiscall(_@(_CatInv_BackupList), CatInv_zCListSort_oCItem___InsertSort);
         call = CALL_End();
     };
 };
@@ -33,9 +33,9 @@ func void CatInv_ContainerInsert() {
  * Remove item from oCItemContainer (only in conjunction with looting oCMobContainers)
  */
 func void CatInv_ContainerRemove() {
-    var oCItemContainer container; container = _^(EBX);
-    if (container.vtbl != oCItemContainer___vftable)
-    || (container.invMode != INV_MODE_MOB)
+    var CatInv_oCItemContainer container; container = _^(EBX);
+    if (container.vtbl != CatInv_oCItemContainer___vftable)
+    || (container.invMode != CatInv_INV_MODE_MOB)
     || (!_CatInv_BackupList) {
         return;
     };
@@ -43,7 +43,7 @@ func void CatInv_ContainerRemove() {
     const int call = 0;
     if (CALL_Begin(call)) {
         CALL_PtrParam(_@(ESI));
-        CALL__thiscall(_@(_CatInv_BackupList), zCListSort_oCItem___Remove);
+        CALL__thiscall(_@(_CatInv_BackupList), CatInv_zCListSort_oCItem___Remove);
         call = CALL_End();
     };
 };
@@ -57,14 +57,14 @@ func void CatInv_NpcInvInsert() {
         return;
     };
 
-    var oCNpcInventory npcInv; npcInv = _^(ECX);
+    var CatInv_oCNpcInventory npcInv; npcInv = _^(ECX);
     var C_Npc npc; npc = _^(npcInv.owner);
     if (!Npc_IsPlayer(npc)) {
         return;
     };
 
     // Check if container is open
-    var int containerList; containerList = MEM_ReadInt(s_openContainers_next);
+    var int containerList; containerList = MEM_ReadInt(CatInv_s_openContainers_next);
     if (!containerList) {
         return;
     };
@@ -76,7 +76,7 @@ func void CatInv_NpcInvInsert() {
     const int call = 0;
     if (CALL_Begin(call)) {
         CALL_PtrParam(_@(ESI));
-        CALL__thiscall(_@(list), zCListSort_oCItem___InsertSort);
+        CALL__thiscall(_@(list), CatInv_zCListSort_oCItem___InsertSort);
         call = CALL_End();
     };
 };
@@ -90,14 +90,14 @@ func void CatInv_NpcInvRemove() {
         return;
     };
 
-    var oCNpcInventory npcInv; npcInv = _^(EBX);
+    var CatInv_oCNpcInventory npcInv; npcInv = _^(EBX);
     var C_Npc npc; npc = _^(npcInv.owner);
     if (!Npc_IsPlayer(npc)) {
         return;
     };
 
     // Check if container is open
-    var int containerList; containerList = MEM_ReadInt(s_openContainers_next);
+    var int containerList; containerList = MEM_ReadInt(CatInv_s_openContainers_next);
     if (!containerList) {
         return;
     };
@@ -109,7 +109,7 @@ func void CatInv_NpcInvRemove() {
     const int call = 0;
     if (CALL_Begin(call)) {
         CALL_PtrParam(_@(ESI));
-        CALL__thiscall(_@(list), zCListSort_oCItem___Remove);
+        CALL__thiscall(_@(list), CatInv_zCListSort_oCItem___Remove);
         call = CALL_End();
     };
 };

@@ -15,7 +15,7 @@
 func int CatInv_NpcContainerIsEmpty(var int container, var int includeEquipped, var int includeArmor) {
     const int ITEM_KAT_ARMOR = 1 <<  4;
     const int ITEM_ACTIVE    = 1 << 30;
-    var oCNpcInventory con; con = _^(container);
+    var CatInv_oCNpcInventory con; con = _^(container);
     if (con.owner) {
         var oCNpc owner; owner = _^(con.owner);
         var int list; list = _@(owner.inventory2_inventory_Compare);
@@ -46,7 +46,7 @@ func void CatInv_PreventCloseDeadInv() {
         // Previously overwritten by hook
         const int call = 0;
         if (CALL_Begin(call)) {
-            CALL__thiscall(_@(ECX), oCNpc__CloseDeadNpc);
+            CALL__thiscall(_@(ECX), CatInv_oCNpc__CloseDeadNpc);
             call = CALL_End();
         };
     };

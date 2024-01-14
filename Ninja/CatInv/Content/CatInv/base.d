@@ -17,7 +17,7 @@ func void CatInv_DeleteListSortFromPool(var int list, var int purge) {
     const int one = -1; // Set all bits, because char
     if (CALL_Begin(call)) {
         CALL_PtrParam(_@(one));
-        CALL__thiscall(_@(list), zCListSort_oCItem____scalar_deleting_destructor);
+        CALL__thiscall(_@(list), CatInv_zCListSort_oCItem__delete);
         call = CALL_End();
     };
     if (purge) {
@@ -31,7 +31,7 @@ func void CatInv_DeleteListSortFromPool(var int list, var int purge) {
 
 /*
  * Get category offset as defined in Gothic.ini (GAME.invCatOrder)
- * The variable int invCatOrder[9] contains the position (array value) of each category (array key).
+ * The variable int CatInv_invCatOrder[9] contains the position (array value) of each category (array key).
  */
 func int CatInv_GetCatID(var int offset) {
     // The "all" category
@@ -40,11 +40,11 @@ func int CatInv_GetCatID(var int offset) {
     };
 
     // Skip "NONE" category
-    offset += (offset > MEM_ReadInt(invCatOrder));
+    offset += (offset > MEM_ReadInt(CatInv_invCatOrder));
 
     const int INV_CAT_MAX = 9;
     repeat(i, INV_CAT_MAX + 1); var int i;
-        if (MEM_ReadIntArray(invCatOrder, i) == offset-1) {
+        if (MEM_ReadIntArray(CatInv_invCatOrder, i) == offset-1) {
             return i;
         };
     end;
@@ -62,7 +62,7 @@ func int CatInv_SupportCat(var int container) {
         return TRUE;
     };
 
-    var oCItemContainer con; con = _^(container);
+    var CatInv_oCItemContainer con; con = _^(container);
     return con.right;
 };
 
@@ -72,20 +72,20 @@ func int CatInv_SupportCat(var int container) {
  */
 func int CatInv_Reset(var int container) {
     var int container_vtbl; container_vtbl = MEM_ReadInt(container);
-    if (container_vtbl == oCNpcInventory___vftable) {
-        var oCNpcInventory npcInv; npcInv = _^(container);
+    if (container_vtbl == CatInv_oCNpcInventory___vftable) {
+        var CatInv_oCNpcInventory npcInv; npcInv = _^(container);
         if (npcInv._oCItemContainer_contents != _@(npcInv.inventory_Compare)) {
             CatInv_DeleteListSortFromPool(npcInv._oCItemContainer_contents, 1); // Some nodes are in zCMemListPool
             npcInv._oCItemContainer_contents = _@(npcInv.inventory_Compare);
         };
-    } else if (container_vtbl == oCStealContainer___vftable) {
+    } else if (container_vtbl == CatInv_oCStealContainer___vftable) {
         const int call = 0;
         if (CALL_Begin(call)) {
-            CALL__thiscall(_@(container), oCStealContainer__CreateList);
+            CALL__thiscall(_@(container), CatInv_oCStealContainer__CreateList);
             call = CALL_End();
         };
-    } else if (container_vtbl == oCNpcContainer___vftable) {
-        var oCItemContainer npcCon; npcCon = _^(container);
+    } else if (container_vtbl == CatInv_oCNpcContainer___vftable) {
+        var CatInv_oCItemContainer npcCon; npcCon = _^(container);
         var zCListSort l; l = _^(npcCon.contents);
         if (l.next) {
             CatInv_DeleteListSortFromPool(l.next, 1); // Some nodes are in zCMemListPool
@@ -93,12 +93,12 @@ func int CatInv_Reset(var int container) {
         };
         const int call2 = 0;
         if (CALL_Begin(call2)) {
-            CALL__thiscall(_@(container), oCNpcContainer__CreateList);
+            CALL__thiscall(_@(container), CatInv_oCNpcContainer__CreateList);
             call2 = CALL_End();
         };
-    } else if (container_vtbl == oCItemContainer___vftable) {
+    } else if (container_vtbl == CatInv_oCItemContainer___vftable) {
         if (_CatInv_BackupList) {
-            var oCItemContainer itmCon; itmCon = _^(container);
+            var CatInv_oCItemContainer itmCon; itmCon = _^(container);
             CatInv_DeleteListSortFromPool(itmCon.contents, 1); // Some nodes are in zCMemListPool
             itmCon.contents = _CatInv_BackupList;
             _CatInv_BackupList = 0;
@@ -122,7 +122,7 @@ func void CatInv_ManipulateCreateList() {
     } else if (!CatInv_ActiveCategory) {
         // 'All' category
         EAX = 0;
-    } else if (itm.mainflag & MEM_ReadStatArr(INV_CAT_GROUPS, CatInv_GetCatID(CatInv_ActiveCategory))) {
+    } else if (itm.mainflag & MEM_ReadStatArr(CatInv_INV_CAT_GROUPS, CatInv_GetCatID(CatInv_ActiveCategory))) {
         // Check if item is in active inventory category
         EAX = 0;
     } else {
@@ -136,13 +136,13 @@ func void CatInv_ManipulateCreateList() {
  * Scroll to top
  */
 func void CatInv_ResetOffset(var int container) {
-    var oCItemContainer con; con = _^(container);
+    var CatInv_oCItemContainer con; con = _^(container);
     con.selectedItem -= con.offset;
     con.offset = 0;
 };
 func void CatInv_SetSelectionFirst(var int container) {
     CatInv_ResetOffset(container);
-    var oCItemContainer con; con = _^(container);
+    var CatInv_oCItemContainer con; con = _^(container);
     con.selectedItem = 0;
 };
 
@@ -151,7 +151,7 @@ func void CatInv_SetSelectionFirst(var int container) {
  * Scroll to bottom
  */
 func void CatInv_SetMaxOffset(var int container, var int selLastItem) {
-    var oCItemContainer con; con = _^(container);
+    var CatInv_oCItemContainer con; con = _^(container);
 
     // Calling this engine function is faster than counting in Daedalus
     var int numItems;
@@ -159,7 +159,7 @@ func void CatInv_SetMaxOffset(var int container, var int selLastItem) {
     const int call = 0;
     if (CALL_Begin(call)) {
         CALL_PutRetValTo(_@(numItems));
-        CALL__thiscall(_@(contents), zCListSort_oCItem___GetNumInList);
+        CALL__thiscall(_@(contents), CatInv_zCListSort_oCItem___GetNumInList);
         call = CALL_End();
     };
 
@@ -189,8 +189,8 @@ func void CatInv_Update(var int container) {
         return;
     };
 
-    if (container_vtbl == oCNpcInventory___vftable) {
-        var oCNpcInventory npcInv; npcInv = _^(container);
+    if (container_vtbl == CatInv_oCNpcInventory___vftable) {
+        var CatInv_oCNpcInventory npcInv; npcInv = _^(container);
 
         npcInv._oCItemContainer_contents = List_CreateS(0);
         var zCListSort list0; list0 = _^(npcInv._oCItemContainer_contents);
@@ -200,12 +200,12 @@ func void CatInv_Update(var int container) {
         if (npcInv.inventory_next) {
             List_ForFS(npcInv.inventory_next, CatInv_AddItem);
         };
-    } else if (container_vtbl == oCItemContainer___vftable) {
+    } else if (container_vtbl == CatInv_oCItemContainer___vftable) {
         if (CatInv_G1Mode) {
             return;
         };
 
-        var oCItemContainer itmCon; itmCon = _^(container);
+        var CatInv_oCItemContainer itmCon; itmCon = _^(container);
         if (_CatInv_BackupList) {
             CatInv_DeleteListSortFromPool(_CatInv_BackupList, 1); // Some nodes are in zCMemListPool
         };
@@ -225,12 +225,12 @@ func void CatInv_Update(var int container) {
 func void CatInv_AddItem(var int listPtr) {
     var zCListSort l; l = _^(listPtr);
     var C_Item itm; itm = _^(l.data);
-    if (itm.mainflag & MEM_ReadStatArr(INV_CAT_GROUPS, CatInv_GetCatID(CatInv_ActiveCategory))) {
+    if (itm.mainflag & MEM_ReadStatArr(CatInv_INV_CAT_GROUPS, CatInv_GetCatID(CatInv_ActiveCategory))) {
         List_AddS(_CatInv_CurrentList, l.data);
     };
 };
 func void CatInv_UpdateAll() {
-    var int list; list = MEM_ReadInt(s_openContainers_next);
+    var int list; list = MEM_ReadInt(CatInv_s_openContainers_next);
     while(list);
         var zCList l; l = _^(list);
         CatInv_Update(l.data);
@@ -294,8 +294,8 @@ func int CatInv_SetCategoryLast() {
  */
 func void CatInv_Open() {
     // Reset active category when trading or looting
-    var oCItemContainer container; container = _^(ECX);
-    if (container.vtbl != oCNpcInventory___vftable) {
+    var CatInv_oCItemContainer container; container = _^(ECX);
+    if (container.vtbl != CatInv_oCNpcInventory___vftable) {
         if (!CatInv_G1Mode) {
             CatInv_SetCategoryFirst();
         };

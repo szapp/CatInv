@@ -58,11 +58,11 @@ func int CatInv_LastNonActiveItem(var int list, var int max) {
  * Intercept moving the selection to the right ("next")
  */
 func void CatInv_Right() {
-    var oCItemContainer container; container = _^(ESI);
+    var CatInv_oCItemContainer container; container = _^(ESI);
     var int switchView; switchView = 0; // -1 = no, 1 = yes, 0 = auto
     var int selLastCol; selLastCol = TRUE;
 
-    if (CatInv_G1Mode) && (MEM_ReadInt(oCNpc__game_mode)) {
+    if (CatInv_G1Mode) && (MEM_ReadInt(CatInv_oCNpc__game_mode)) {
         // No action in steal/dead inventory in G1 mode
         switchView = 0;
     } else if (MEM_KeyPressed(KEY_LSHIFT)) || (MEM_KeyPressed(KEY_RSHIFT)) {
@@ -77,7 +77,7 @@ func void CatInv_Right() {
         const int call = 0;
         if (CALL_Begin(call)) {
             CALL_PutRetValTo(_@(numItems));
-            CALL__thiscall(_@(contents), zCListSort_oCItem___GetNumInList);
+            CALL__thiscall(_@(contents), CatInv_zCListSort_oCItem___GetNumInList);
             call = CALL_End();
         };
 
@@ -115,19 +115,19 @@ func void CatInv_Right() {
         MEM_WriteInt(ESP+8, container.offset);
 
         // Prevent switching view or moving selection into next row
-        MEM_WriteByte(oCItemContainer__NextItem_check1, ASMINT_OP_nop);
-        MEM_WriteByte(oCItemContainer__NextItem_check1+1, ASMINT_OP_jmp);
-        MEM_WriteByte(oCItemContainer__NextItem_check2, /*84*/ 132);  // jz
+        MEM_WriteByte(CatInv_oCItemContainer__NextItem_check1, ASMINT_OP_nop);
+        MEM_WriteByte(CatInv_oCItemContainer__NextItem_check1+1, ASMINT_OP_jmp);
+        MEM_WriteByte(CatInv_oCItemContainer__NextItem_check2, /*84*/ 132);  // jz
     } else if (switchView == 1) {
         // Force switch view
-        MEM_WriteByte(oCItemContainer__NextItem_check1, /*EB*/ 235);  // short jmp
-        MEM_WriteByte(oCItemContainer__NextItem_check1+1, 35);        // Bytes
-        MEM_WriteByte(oCItemContainer__NextItem_check2, /*85*/ 133);  // jnz
+        MEM_WriteByte(CatInv_oCItemContainer__NextItem_check1, /*EB*/ 235);  // short jmp
+        MEM_WriteByte(CatInv_oCItemContainer__NextItem_check1+1, 35);        // Bytes
+        MEM_WriteByte(CatInv_oCItemContainer__NextItem_check2, /*85*/ 133);  // jnz
     } else {
         // Default (auto): Move selection to next row or switch view if applicable
-        MEM_WriteByte(oCItemContainer__NextItem_check1, /*0F*/ 15);   // jge
-        MEM_WriteByte(oCItemContainer__NextItem_check1+1, /*8D*/ 141);
-        MEM_WriteByte(oCItemContainer__NextItem_check2, /*85*/ 133);  // jnz
+        MEM_WriteByte(CatInv_oCItemContainer__NextItem_check1, /*0F*/ 15);   // jge
+        MEM_WriteByte(CatInv_oCItemContainer__NextItem_check1+1, /*8D*/ 141);
+        MEM_WriteByte(CatInv_oCItemContainer__NextItem_check2, /*85*/ 133);  // jnz
     };
 };
 
@@ -136,10 +136,10 @@ func void CatInv_Right() {
  * Intercept moving the selection to the left ("previous")
  */
 func void CatInv_Left() {
-    var oCItemContainer container; container = _^(ESI);
+    var CatInv_oCItemContainer container; container = _^(ESI);
     var int switchView; switchView = 0; // -1 = no, 1 = yes, 0 = auto
 
-    if (CatInv_G1Mode) && (MEM_ReadInt(oCNpc__game_mode)) {
+    if (CatInv_G1Mode) && (MEM_ReadInt(CatInv_oCNpc__game_mode)) {
         // No action in steal/dead inventory in G1 mode
         switchView = 0;
     } else if (MEM_KeyPressed(KEY_LSHIFT)) || (MEM_KeyPressed(KEY_RSHIFT)) {
@@ -171,19 +171,19 @@ func void CatInv_Left() {
         MEM_WriteInt(ESP+12, container.offset); // esp+24h-18h
 
         // Prevent switching view or moving selection into next row
-        MEM_WriteByte(oCItemContainer__PrevItem_check1, ASMINT_OP_nop);
-        MEM_WriteByte(oCItemContainer__PrevItem_check1+1, ASMINT_OP_jmp);
-        MEM_WriteByte(oCItemContainer__PrevItem_check2, /*84*/ 132);  // jz
+        MEM_WriteByte(CatInv_oCItemContainer__PrevItem_check1, ASMINT_OP_nop);
+        MEM_WriteByte(CatInv_oCItemContainer__PrevItem_check1+1, ASMINT_OP_jmp);
+        MEM_WriteByte(CatInv_oCItemContainer__PrevItem_check2, /*84*/ 132);  // jz
     } else if (switchView == 1) {
         // Force switch view
-        MEM_WriteByte(oCItemContainer__PrevItem_check1, /*EB*/ 235);  // short jmp
-        MEM_WriteByte(oCItemContainer__PrevItem_check1+1, 34);        // Bytes
-        MEM_WriteByte(oCItemContainer__PrevItem_check2, /*85*/ 133);  // jnz
+        MEM_WriteByte(CatInv_oCItemContainer__PrevItem_check1, /*EB*/ 235);  // short jmp
+        MEM_WriteByte(CatInv_oCItemContainer__PrevItem_check1+1, 34);        // Bytes
+        MEM_WriteByte(CatInv_oCItemContainer__PrevItem_check2, /*85*/ 133);  // jnz
     } else {
         // Default (auto): Move selection to next row or switch view if applicable
-        MEM_WriteByte(oCItemContainer__PrevItem_check1, /*0F*/ 15);   // jle
-        MEM_WriteByte(oCItemContainer__PrevItem_check1+1, /*8E*/ 142);
-        MEM_WriteByte(oCItemContainer__PrevItem_check2, /*85*/ 133);  // jnz
+        MEM_WriteByte(CatInv_oCItemContainer__PrevItem_check1, /*0F*/ 15);   // jle
+        MEM_WriteByte(CatInv_oCItemContainer__PrevItem_check1+1, /*8E*/ 142);
+        MEM_WriteByte(CatInv_oCItemContainer__PrevItem_check2, /*85*/ 133);  // jnz
     };
 };
 
@@ -193,18 +193,18 @@ func void CatInv_Left() {
  */
 func int CatInv_SwitchContainer(var int container) {
     // Disable switching for left-only inventory modes
-    if (MEM_ReadInt(oCNpc__game_mode)) {
+    if (MEM_ReadInt(CatInv_oCNpc__game_mode)) {
         return 0;
     };
 
-    var oCItemContainer con; con = _^(container);
+    var CatInv_oCItemContainer con; con = _^(container);
     var int dir; dir = -con.right; // To the left if dir < 0, to the right otherwise
 
     const int call = 0;
     if (CALL_Begin(call)) {
         CALL_IntParam(_@(dir));
         CALL_PutRetValTo(_@(ret));
-        CALL__thiscall(_@(container), oCItemContainer__ActivateNextContainer);
+        CALL__thiscall(_@(container), CatInv_oCItemContainer__ActivateNextContainer);
         call = CALL_End();
     };
 
@@ -223,7 +223,7 @@ func int CatInv_KeyBindingIsToggled(var int keyStroke, var int keyBinding) {
         CALL_IntParam(_@(keyStroke));
         CALL_IntParam(_@(keyBinding));
         CALL_PutRetValTo(_@(ret));
-        CALL__thiscall(_@(zptr), zCInput__IsBindedToggled);
+        CALL__thiscall(_@(zptr), CatInv_zCInput__IsBindedToggled);
         call = CALL_End();
     };
 
@@ -241,7 +241,7 @@ func void CatInv_HandleEvent(var int keyStroke, var int container) {
         if (MEM_KeyPressed(KEY_LSHIFT))
         || (MEM_KeyPressed(KEY_RSHIFT)) {
             // Only when not in G1 mode in steal/dead inventory
-            if (!CatInv_G1Mode) || (!MEM_ReadInt(oCNpc__game_mode)) {
+            if (!CatInv_G1Mode) || (!MEM_ReadInt(CatInv_oCNpc__game_mode)) {
                 dump = CatInv_SetCategoryFirst();
             };
         } else {
@@ -251,13 +251,13 @@ func void CatInv_HandleEvent(var int keyStroke, var int container) {
         if (MEM_KeyPressed(KEY_LSHIFT))
         || (MEM_KeyPressed(KEY_RSHIFT)) {
             // Only when not in G1 mode in steal/dead inventory
-            if (!CatInv_G1Mode) || (!MEM_ReadInt(oCNpc__game_mode)) {
+            if (!CatInv_G1Mode) || (!MEM_ReadInt(CatInv_oCNpc__game_mode)) {
                 dump = CatInv_SetCategoryLast();
             };
         } else {
             CatInv_SetSelectionLast(container);
         };
-    } else if (CatInv_KeyBindingIsToggled(keyStroke, zOPT_GAMEKEY_WEAPON)) {
+    } else if (CatInv_KeyBindingIsToggled(keyStroke, CatInv_zOPT_GAMEKEY_WEAPON)) {
         dump = CatInv_SwitchContainer(container);
     };
 };
@@ -266,12 +266,12 @@ func void CatInv_HandleEventEDI() {
 };
 func void CatInv_HandleEventEBX() {
     var int viewDiaItmCon;
-    if (MEM_ReadInt(EBP+oCViewDialogTrade_right_offset)) {
-        viewDiaItmCon = MEM_ReadInt(EBP+oCViewDialogTrade_containerRight_offset);
+    if (MEM_ReadInt(EBP+CatInv_oCViewDialogTrade_right_offset)) {
+        viewDiaItmCon = MEM_ReadInt(EBP+CatInv_oCViewDialogTrade_containerRight_offset);
     } else {
-        viewDiaItmCon = MEM_ReadInt(EBP+oCViewDialogTrade_containerLeft_offset);
+        viewDiaItmCon = MEM_ReadInt(EBP+CatInv_oCViewDialogTrade_containerLeft_offset);
     };
-    CatInv_HandleEvent(EBX, MEM_ReadInt(viewDiaItmCon+oCViewDialogItemContainer_itemContainer_offset));
+    CatInv_HandleEvent(EBX, MEM_ReadInt(viewDiaItmCon+CatInv_oCViewDialogItemContainer_itemContainer_offset));
 };
 
 
@@ -279,14 +279,14 @@ func void CatInv_HandleEventEBX() {
  * Check (additional) key strokes for oCNpcInventory (special case)
  */
 func void CatInv_HandleEventNpcInventory() {
-    EAX = CatInv_KeyBindingIsToggled(ESI, zOPT_GAMEKEY_WEAPON);
+    EAX = CatInv_KeyBindingIsToggled(ESI, CatInv_zOPT_GAMEKEY_WEAPON);
     if (EAX) {
         EAX = !CatInv_SwitchContainer(EBP);
     } else if (ESI == KEY_HOME) {
         if (MEM_KeyPressed(KEY_LSHIFT))
         || (MEM_KeyPressed(KEY_RSHIFT)) {
             // Only when not in G1 mode in steal/dead inventory
-            if (!CatInv_G1Mode) || (!MEM_ReadInt(oCNpc__game_mode)) {
+            if (!CatInv_G1Mode) || (!MEM_ReadInt(CatInv_oCNpc__game_mode)) {
                 EAX = CatInv_SetCategoryFirst();
             };
         } else {
@@ -297,7 +297,7 @@ func void CatInv_HandleEventNpcInventory() {
         if (MEM_KeyPressed(KEY_LSHIFT))
         || (MEM_KeyPressed(KEY_RSHIFT)) {
             // Only when not in G1 mode in steal/dead inventory
-            if (!CatInv_G1Mode) || (!MEM_ReadInt(oCNpc__game_mode)) {
+            if (!CatInv_G1Mode) || (!MEM_ReadInt(CatInv_oCNpc__game_mode)) {
                 EAX = CatInv_SetCategoryLast();
             };
         } else {
@@ -307,7 +307,7 @@ func void CatInv_HandleEventNpcInventory() {
     };
 
     // Exit function with true if EAX == 0, otherwise restore default behavior if EAX == 1
-    MEM_WriteByte(oCNpcInventory__HandleEvent_keyWeaponJZ, /*0x12*/ 18 + !EAX * 2);
+    MEM_WriteByte(CatInv_oCNpcInventory__HandleEvent_keyWeaponJZ, /*0x12*/ 18 + !EAX * 2);
 };
 
 
@@ -318,11 +318,11 @@ func void CatInv_DelayMobCamera() {
     const int call = 0;
     if (CALL_Begin(call)) {
         // CALL_RetValIsFloat();
-        CALL_IntParam(_@(zOPT_GAMEKEY_WEAPON));
-        CALL__thiscall(_@(ECX), zCInput_Win32__GetState);
+        CALL_IntParam(_@(CatInv_zOPT_GAMEKEY_WEAPON));
+        CALL__thiscall(_@(ECX), CatInv_zCInput_Win32__GetState);
         CALL_PutRetValTo(_@(EAX));
 
-        CALL__cdecl(__ftol);
+        CALL__cdecl(CatInv___ftol);
 
         call = CALL_End();
     };
@@ -344,7 +344,7 @@ func void CatInv_DelayMobCamera() {
  */
 func void CatInv_ClampCategory() {
     const int ITEM_ACTIVE = 1 << 30;
-    var oCItemContainer container; container = _^(ESI);
+    var CatInv_oCItemContainer container; container = _^(ESI);
     var C_Item itm; itm = _^(ECX);
     EAX = 0;
 
