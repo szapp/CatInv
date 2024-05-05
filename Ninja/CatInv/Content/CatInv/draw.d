@@ -1,6 +1,6 @@
 /*
  * This file is part of CatInv.
- * Copyright (C) 2018-2024  Sören Zapp
+ * Copyright (C) 2018-2024  SÃ¶ren Zapp
  *
  * CatInv is free software: you can redistribute it and/or
  * modify it under the terms of the MIT License.
@@ -32,7 +32,22 @@ func void CatInv_DrawCategory() {
     var zCView viewTitle; viewTitle = _^(EAX); // zCView* (oCItemContainer.viewTitle)
     var int screenPtr; screenPtr = ECX; // zCView*
 
-    var string text; text = MEM_ReadStatStringArr(TXT_INV_CAT, CatInv_GetCatID(CatInv_ActiveCategory));
+    // Attempt to read TXT_INV_CAT if symbol exists
+    const int TXT_INV_CAT_Ptr = 0;
+    if (!TXT_INV_CAT_Ptr) {
+        var int symbPtr; symbPtr = MEM_GetSymbol("TXT_INV_CAT");
+        if (symbPtr) {
+            TXT_INV_CAT_Ptr = MEM_ReadInt(symbPtr+zCParSymbol_content_offset);
+        } else {
+            // Fallback values if TXT_INV_CAT does not exist
+            const string fallback[9] = {
+                "", "Weapons", "Armor", "Magic", "Artifacts", "Food", "Potions", "Writings", "Miscellaneous"
+            };
+            TXT_INV_CAT_Ptr = _@s(fallback);
+        };
+    };
+
+    var string text; text = MEM_ReadStringArray(TXT_INV_CAT_Ptr, CatInv_GetCatID(CatInv_ActiveCategory));
     text = ConcatStrings(text, STR_UnEscape("\n"));
     var int textPtr; textPtr = _@s(text);
 
