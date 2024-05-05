@@ -1,6 +1,6 @@
 /*
  * This file is part of CatInv.
- * Copyright (C) 2018-2024  Sören Zapp
+ * Copyright (C) 2018-2024  SÃ¶ren Zapp
  *
  * CatInv is free software: you can redistribute it and/or
  * modify it under the terms of the MIT License.
