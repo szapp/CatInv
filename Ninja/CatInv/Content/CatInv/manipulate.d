@@ -13,7 +13,8 @@
  * Add item to oCItemContainer (only in conjunction with looting oCMobContainers)
  */
 func void CatInv_ContainerInsert() {
-    var CatInv_oCItemContainer container; container = _^(MEMINT_SwitchExe(0,0,EDI,EBP));
+    var CatInv_oCItemContainer container;
+    if (GOTHIC_BASE_VERSION == 2) { container = _^(EBP); } else { container = _^(EDI); };
     if (container.vtbl != CatInv_oCItemContainer___vftable)
     || (container.invMode != CatInv_INV_MODE_MOB)
     || (!_CatInv_BackupList) {

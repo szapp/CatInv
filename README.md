@@ -10,7 +10,7 @@ Categorized inventory for Gothic 2 and Gothic 2 NotR. This patch extends the inv
 This is a modular modification (a.k.a. patch or add-on) that can be installed and uninstalled at any time and is virtually compatible with any modification.
 It supports <kbd>Gothic II (Classic)</kbd> and <kbd>Gothic II: NotR</kbd>.
 
-###### Generated from [szapp/patch-template](https://github.com/szapp/patch-template).
+<sup>Generated from [szapp/patch-template](https://github.com/szapp/patch-template).</sup>
 
 <div align="center">
 <img src="https://github.com/szapp/CatInv/assets/20203034/b4bb1dba-8b11-4167-b686-d5edfe9206dc" alt="Screenshot" width="18%" /> &nbsp;  
@@ -62,7 +62,7 @@ The categorized inventory can be adjusted with three settings in the Gothic.ini 
 
 Patch includes CatInv.
 
-CatInv, Copyright (C) 2018-2024  Sören Zapp.  
+CatInv, Copyright (C) 2019-2024  Sören Zapp.  
 Released under the MIT License.  
 Full license in Ninja\CatInv\Content\CatInv\LICENSE
 
@@ -81,7 +81,7 @@ The patch is also available on
 
 <table><thead><tr><th>Gothic II (Classic)</th><th>Gothic II: NotR</th></tr></thead>
 <tbody><tr><td><a href="https://www.worldofgothic.de/dl/download_278.htm">Report version 1.30.0.0</a></td><td><a href="https://www.worldofgothic.de/dl/download_278.htm">Report version 2.6.0.0</a></td></tr></tbody>
-<tbody><tr><td colspan="2" align="center"><a href="https://github.com/szapp/Ninja">Ninja 2</a> (or higher)</td></tr></tbody></table>
+<tbody><tr><td colspan="2" align="center"><a href="https://github.com/szapp/Ninja">Ninja 2.8</a> or higher</td></tr></tbody></table>
 
 <!--
 
