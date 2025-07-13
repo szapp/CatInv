@@ -3,7 +3,8 @@
 [![Scripts](https://github.com/szapp/CatInv/actions/workflows/scripts.yml/badge.svg)](https://github.com/szapp/CatInv/actions/workflows/scripts.yml)
 [![Validation](https://github.com/szapp/CatInv/actions/workflows/validation.yml/badge.svg)](https://github.com/szapp/CatInv/actions/workflows/validation.yml)
 [![Build](https://github.com/szapp/CatInv/actions/workflows/build.yml/badge.svg)](https://github.com/szapp/CatInv/actions/workflows/build.yml)
-[![GitHub release](https://img.shields.io/github/v/release/szapp/CatInv.svg)](https://github.com/szapp/CatInv/releases/latest)  
+[![GitHub release](https://img.shields.io/github/v/release/szapp/CatInv.svg)](https://github.com/szapp/CatInv/releases/latest)
+[![Support on Ko-fi](https://img.shields.io/badge/ko--fi-support-ff586e?logo=kofi&logoColor=white)](https://ko-fi.com/szapp)  
 [![World of Gothic](https://raw.githubusercontent.com/szapp/patch-template/main/.github/actions/initialization/badges/wog.svg)](https://www.worldofgothic.de/dl/download_617.htm)
 [![Spine](https://raw.githubusercontent.com/szapp/patch-template/main/.github/actions/initialization/badges/spine.svg)](https://clockwork-origins.com/spine)
 [![Steam workshop](https://img.shields.io/badge/steam-workshop-2a3f5a?logo=steam&labelColor=1b2838)](https://steamcommunity.com/sharedfiles/filedetails/?id=2787221263)
@@ -84,7 +85,8 @@ The patch is also available on
 
 <table><thead><tr><th>Gothic II (Classic)</th><th>Gothic II: NotR</th></tr></thead>
 <tbody><tr><td><a href="https://www.worldofgothic.de/dl/download_278.htm">Report version 1.30.0.0</a></td><td><a href="https://www.worldofgothic.de/dl/download_278.htm">Report version 2.6.0.0</a></td></tr></tbody>
-<tbody><tr><td colspan="2" align="center"><a href="https://github.com/szapp/Ninja/wiki#wiki-content">Ninja 2.9.15</a> or higher</td></tr></tbody></table>
+<tbody><tr><td colspan="2" align="center"><a href="https://github.com/szapp/Ninja/wiki#wiki-content">Ninja 4</a> or higher</td></tr></tbody>
+<tbody><tr><td colspan="4" align="center"><a href="https://github.com/szapp/Toolkit">Toolkit 16</a> or higher</td></tr></table>
 
 <!--
 
